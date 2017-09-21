@@ -5,6 +5,7 @@ import './App.css';
 import logoimg from './logo.png';
 
 class App extends Component {
+
   goTo(route) {
     this.props.history.replace(`/${route}`)
   }
@@ -15,6 +16,14 @@ class App extends Component {
 
   logout() {
     this.props.auth.logout();
+  }
+
+  componentDidMount() { 
+    let { isAuthenticated }=this.props.auth;
+    let { location } = this.props.history;
+    if(location.pathname === '/' && !isAuthenticated()) {
+      this.login();
+    }
   }
 
   render() {
@@ -59,6 +68,7 @@ class App extends Component {
                   </a>
                   {' '}to continue.
                 </h4>
+
               )
           }
           {this.props.children}
@@ -67,5 +77,4 @@ class App extends Component {
     );
   }
 }
-
 export default App;
