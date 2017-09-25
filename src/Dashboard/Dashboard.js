@@ -9,18 +9,18 @@ import spotifyimg from './spotify.png';
 class Dashboard extends Component {
 
   componentWillMount() {
-    this.setState({ profile: {} });
-    const { userProfile, getProfile } = this.props.auth;
-    if (!userProfile) {
-      getProfile((err, profile) => {
-        this.setState({ profile });
+    this.setState({ email: {} });
+    const { userEmail, getEmail } = this.props.auth;
+    if (!userEmail) {
+      getEmail((err, email) => {
+        this.setState({ email });
       });
     } else {
-      this.setState({ profile: userProfile });
+      this.setState({ email: userEmail });
     }
   }
   render() {
-    const { profile } = this.state; 
+    const { email } = this.state; 
     return (
       <div className="container">
         <div className="profile-area">
@@ -29,7 +29,7 @@ class Dashboard extends Component {
             <div className="integration-block">
               <div className='image-block'>
                 <img className="img-square" src={squareimg} alt="Square Logo"/> 
-                <a href={'https://connect.squareup.com/oauth2/authorize?client_id=sq0idp-JOcI7wPMrutdlGthWLCUYQ&state=' + profile.name+ '&scope=MERCHANT_PROFILE_READ%20PAYMENTS_READ%20CUSTOMERS_READ%20ITEMS_READ'} style={{'marginLeft':'74%'}}>
+                <a href={'https://connect.squareup.com/oauth2/authorize?client_id=sq0idp-JOcI7wPMrutdlGthWLCUYQ&state=' + email.email+ '&scope=MERCHANT_PROFILE_READ%20PAYMENTS_READ%20CUSTOMERS_READ%20ITEMS_READ'} style={{'marginLeft':'74%'}}>
                   <RaisedButton className="en_button" label="Enable" buttonStyle={{'borderRadius':'15px'}} labelColor="#fff" backgroundColor="#FF5744" style={{'borderRadius':'15px'}}/>
                 </a>
               </div>
@@ -40,7 +40,7 @@ class Dashboard extends Component {
             <div className="integration-block">
               <div className='image-block'>
                 <img className="img-spotify" src={spotifyimg} alt="Spotify Logo"/> 
-                <a href={'https://accounts.spotify.com/authorize/?client_id=84bd052b5f844708861f1c3dc8685633&response_type=code&redirect_uri=https%3A%2F%2Farceaq2a1d.execute-api.us-west-2.amazonaws.com%2Fprod%2Fcallbacks%2Foauth%2Fspotify&state=' + profile.name + '&scope=user-read-private%20user-read-email%20user-read-recently-played'} style={{'marginLeft':'74%'}}>
+                <a href={'https://accounts.spotify.com/authorize/?client_id=84bd052b5f844708861f1c3dc8685633&response_type=code&redirect_uri=https%3A%2F%2Farceaq2a1d.execute-api.us-west-2.amazonaws.com%2Fprod%2Fcallbacks%2Foauth%2Fspotify&state=' + email.email + '&scope=user-read-private%20user-read-email%20user-read-recently-played'} style={{'marginLeft':'74%'}}>
                   <RaisedButton className="en_button" label="Enable" buttonStyle={{'borderRadius':'15px'}} labelColor="#fff" backgroundColor="#FF5744" style={{'borderRadius':'15px'}}/>
                 </a>
               </div>

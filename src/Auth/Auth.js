@@ -9,10 +9,10 @@ export default class Auth {
     redirectUri: AUTH_CONFIG.callbackUrl,
     audience: `https://${AUTH_CONFIG.domain}/userinfo`,
     responseType: 'token id_token',
-    scope: 'openid profile'
+    scope: 'openid profile email'
   });
 
-  userProfile;
+  userEmail;
 
   constructor() {
     this.login = this.login.bind(this);
@@ -20,7 +20,7 @@ export default class Auth {
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getAccessToken = this.getAccessToken.bind(this);
-    this.getProfile = this.getProfile.bind(this);
+    this.getEmail = this.getEmail.bind(this);
   }
 
   login() {
@@ -60,13 +60,13 @@ export default class Auth {
     return accessToken;
   }
 
-  getProfile(cb) {
+  getEmail(cb) {
     let accessToken = this.getAccessToken();
-    this.auth0.client.userInfo(accessToken, (err, profile) => {
-      if (profile) {
-        this.userProfile = profile;
+    this.auth0.client.userInfo(accessToken, (err, email) => {
+      if (email) {
+        this.userEmail = email;
       }
-      cb(err, profile);
+      cb(err, email);
     });
   }
 
@@ -75,7 +75,7 @@ export default class Auth {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
-    this.userProfile = null;
+    this.userEmail = null;
     // navigate to the home route
     history.replace('/');
   }
