@@ -21,6 +21,7 @@ export default class Auth {
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getAccessToken = this.getAccessToken.bind(this);
     this.getEmail = this.getEmail.bind(this);
+    this.targetPage = '';
   }
 
   login() {
@@ -31,7 +32,7 @@ export default class Auth {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        history.replace('/');
+        history.replace('/dashboard');
       } else if (err) {
         history.replace('/');
         console.log(err);
