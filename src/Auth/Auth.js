@@ -7,7 +7,7 @@ export default class Auth {
     domain: AUTH_CONFIG.domain,
     clientID: AUTH_CONFIG.clientId,
     redirectUri: AUTH_CONFIG.callbackUrl,
-    audience: `https://${AUTH_CONFIG.domain}/userinfo`,
+    audience: `https://api.exemplar.ai/`,
     responseType: 'token id_token',
     scope: 'openid profile email'
   });
@@ -63,11 +63,11 @@ export default class Auth {
 
   getEmail(cb) {
     let accessToken = this.getAccessToken();
-    this.auth0.client.userInfo(accessToken, (err, email) => {
-      if (email) {
-        this.userEmail = email;
+    this.auth0.client.userInfo(accessToken, (err, data) => {
+      if (data.email) {
+        this.userEmail = data.email;
       }
-      cb(err, email);
+      cb(err, data.email);
     });
   }
 
