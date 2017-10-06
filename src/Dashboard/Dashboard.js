@@ -19,13 +19,14 @@ class Dashboard extends Component {
   componentWillMount() {
     this.setState({ email: '', location_id: ''});
     let { location } = this.props.history;
-    if (location.search.indexOf('square=true') !== -1 || location.search.indexOf('spotify=true') !== -1) {
+    if (location.search.indexOf('square=true') !== -1 || location.search.indexOf('spotify=') !== -1) {
       this.setState({ spotify_block_class: 'integration-block', spotify_button_disable: false}); 
       const { getAccessToken } = this.props.auth;
       const headers = {'Authorization': `Bearer ${getAccessToken()}`};
+      console.log(headers);
       axios.get('https://api.exemplar.ai/locations', {headers})
       .then(response => {
-        this.setState({location_id: response.data.id})
+        this.setState({location_id: response.data[0].id})
       })
       .catch(error => console.log(error.message));
     }
