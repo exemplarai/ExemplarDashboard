@@ -35,7 +35,13 @@ class Dashboard extends Component {
         this.setState({ spotify_block_class: 'integration-block-grayout', spotify_button_disable: true});
       }
     })
-    .catch(error => console.log(error.message));
+    .catch(error => {
+      this.setState({location_response_state: true});
+      console.log(error.response);
+      if (error.response.status === 404) {
+        this.setState({ spotify_block_class: 'integration-block-grayout', spotify_button_disable: true});
+      }
+    });
 
     const { userEmail, getEmail } = this.props.auth;
     if (!userEmail) {
