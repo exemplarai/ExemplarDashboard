@@ -18,39 +18,44 @@ class Dashboard extends Component {
 
   componentWillMount() {
     this.setState({ email: '', location_id: '', location_response_state: false, square_connection_status: false, spotify_connection_status: false});
-    const { getAccessToken } = this.props.auth;
-    const headers = {'Authorization': `Bearer ${getAccessToken()}`};
-    console.log(headers);
-    axios.get('https://api.exemplar.ai/locations', {headers})
-    .then(response => {
-      this.setState({location_response_state: true});
-      console.log(response);
-      if (response.status === 200) {
-        this.setState({location_id: response.data[0].id, spotify_block_class: 'integration-block', spotify_button_disable: false, square_connection_status: true})
-        if (response.data[0].playHistoryProviders.spotify) {
-          this.setState({spotify_connection_status: true});
-        }
-      }
-      else if (response.status === 404) {
-        this.setState({ spotify_block_class: 'integration-block-grayout', spotify_button_disable: true});
-      }
-    })
-    .catch(error => {
-      this.setState({location_response_state: true});
-      console.log(error.response);
-      if (error.response.status === 404) {
-        this.setState({ spotify_block_class: 'integration-block-grayout', spotify_button_disable: true});
-      }
-    });
-
-    const { userEmail, getEmail } = this.props.auth;
-    if (!userEmail) {
-      getEmail((err, email) => {
-        this.setState({ email: email });
-      });
-    } else {
-      this.setState({ email: userEmail });
+    const { isAuthenticated ,getAccessToken } = this.props.auth;
+    if (!isAuthenticated()) {
+      this.props.auth.login();
     }
+    else {
+      const headers = {'Authorization': `Bearer ${getAccessToken()}`};
+      console.log(headers);
+      axios.get('https://api.exemplar.ai/locations', {headers})
+      .then(response => {
+        this.setState({location_response_state: true});
+        console.log(response);
+        if (response.status === 200) {
+          this.setState({location_id: response.data[0].id, spotify_block_class: 'integration-block', spotify_button_disable: false, square_connection_status: true})
+          if (response.data[0].playHistoryProviders.spotify) {
+            this.setState({spotify_connection_status: true});
+          }
+        }
+        else if (response.status === 404) {
+          this.setState({ spotify_block_class: 'integration-block-grayout', spotify_button_disable: true});
+        }
+      })
+      .catch(error => {
+        this.setState({location_response_state: true});
+        console.log(error.response);
+        if (error.response.status === 404) {
+          this.setState({ spotify_block_class: 'integration-block-grayout', spotify_button_disable: true});
+        }
+      });
+  
+      const { userEmail, getEmail } = this.props.auth;
+      if (!userEmail) {
+        getEmail((err, email) => {
+          this.setState({ email: email });
+        });
+      } else {
+        this.setState({ email: userEmail });
+      }
+    }    
   }
 
   render() {
