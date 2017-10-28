@@ -24,9 +24,11 @@
     "react-chartjs-2": "^2.6.4",
     "react-chartjs-wrapper": "^2.6.0",
     "react-dom": "^15.5.4",
+    "react-google-charts": "^1.5.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
-    "react-sidebar": "^2.3.2"
+    "react-sidebar": "^2.3.2",
+    "recharts": "^1.0.0-beta.0"
   },
   "scripts": {
     "start": "react-scripts start",
