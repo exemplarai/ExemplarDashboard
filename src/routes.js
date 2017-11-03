@@ -1,11 +1,13 @@
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import App from './App';
 import Dashboard from './Dashboard/Dashboard';
-import Analytics from './Analytics/Analytics';
+import Charts from './Charts/Charts';
 import Callback from './Callback/Callback';
 import Auth from './Auth/Auth';
 import history from './history';
+import { Switch, Route } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const auth = new Auth();
@@ -18,6 +20,16 @@ const handleAuthentication = (nextState, replace) => {
 
 export const makeMainRoutes = () => {
   return (
+//     <App>
+//     <BrowserRouter>
+//       <Switch>
+//       <Route path='/' render={(props) => (
+//   <App a="hello" auth={auth} {...props} />
+// )} />
+//       </Switch>
+//     </BrowserRouter>
+//   </App>
+
     <Router history={history} component={App}>
       <MuiThemeProvider>
         <div>
@@ -25,9 +37,10 @@ export const makeMainRoutes = () => {
           <Route path="/dashboard" render={(props) => (
               <Dashboard auth={auth} {...props} />
           )} />
-          <Route path="/analytics" render={(props) => (
-              <Analytics auth={auth} {...props} />
+          <Route path="/charts" render={(props) => (
+              <Charts {...props} />
           )} />
+          
           <Route path="/callback" render={(props) => {
             handleAuthentication(props);
             return <Callback {...props} /> 
@@ -35,5 +48,6 @@ export const makeMainRoutes = () => {
         </div>
       </MuiThemeProvider>
     </Router>
+    
   );
 }

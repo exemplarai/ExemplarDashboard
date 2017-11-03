@@ -3,3 +3,93 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+.inner_section{
+  background-color: #f6f6f6;
+  padding: 20px 30px 80px;
+}
+.container-fluid{
+  width:auto;
+  max-width:100%;
+}
+.recent_t h3 {
+   font-size: 18px;
+   color: #23264f;
+   margin-bottom: 20px;
+}
+
+.recent_t h3 span {
+   margin-left: 20px;
+}
+
+.track {
+   background-color: #fff;
+   margin-bottom: 50px;
+}
+
+.track .txt {
+   padding: 20px 15px;
+   height: 75px;
+}
+
+.track .txt h1 {
+   font-size: 12px;
+   color: #23264f;
+   font-weight: 600;
+   display: inline-block;
+   margin-bottom: 0;
+}
+
+.track .txt h1 span {
+   color: #ff5f3f;
+   display: block;
+   margin-top: 5px;
+}
+
+.track .txt span.arr {
+   display: inline-block;
+   float: right;
+   margin-top: 5px;
+   color: #ff5f3f;
+}
+
+.empty_d {
+   display: inline-block;
+   /* height: 100px;*/
+   width:100%;
+   background-color: #fff;
+   margin-bottom: 50px;
+   border: 1px solid #777777;
+   padding: 15px;
+}
+.inner_section h3{
+  font-size: 24px;
+  font-weight: 300;
+}
+.profile-area img {
+  max-width: 375px!important;
+  margin-bottom: 0 !important;
+  width: 100%;
+}
+.profile-area {
+  margin-top: 0px!important;
+}
+.brns {
+  padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 6px 1px #e7e7e7;
+    position: fixed;
+    width: 100%;
+    z-index: 99;
+    top: 0;
+}
+section.container-fluid.wd {
+  padding: 0;
+  margin-top: 74px;
+}
+.brand-logo.lgo {
+  padding-top: 25px;
+  padding-left: 15px;
+}
+span.datactive {
+    background-color: #e7e7e7 !important;
+}
