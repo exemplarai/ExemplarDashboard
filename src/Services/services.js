@@ -13,13 +13,9 @@ export function getFeatures(){
 }
 
 export function getRecentTracks(){
-    return axios.get('https://api.exemplar.ai/analytics/summitPA1/tracks.recent?limit=5', {headers:getAuthorizationHeader()});
+    return axios.get('https://api.exemplar.ai/analytics/summitPA1/tracks.recent?limit=4', {headers:getAuthorizationHeader()});
 }
 
 function  getAuthorizationHeader(){
     return {'Authorization': `Bearer ${localStorage.getItem('access_token')}`};
   };
-
-
-
-

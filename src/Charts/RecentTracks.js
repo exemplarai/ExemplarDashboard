@@ -8,7 +8,7 @@ class RecentTracks extends Component {
     this.state = {
       tracks:[]
     }
-    
+
   }
 
   componentWillMount(){
@@ -36,7 +36,7 @@ class RecentTracks extends Component {
             {this.state.tracks.map(function(tracks, i){
 console.log(tracks);
          return (
-<div className="col-sm-3">
+<div className="col-sm-3" key={i}>
       <div className="track">
         <img src={tracks.track.album.images[0].url} className="img-fluid"/>
         <div className="txt">
@@ -44,20 +44,20 @@ console.log(tracks);
           <h1>{tracks.track.name}</h1>
           <span className="arr"><i className="fa fa-angle-right" aria-hidden="true"></i></span>
         </div>
-      </div> 
+      </div>
     </div>
     )
       })
 
-          }                        
-    
-            </div> 
+          }
+
+            </div>
           </div>
-        </div> 
+        </div>
       );
-       
+
       }
-    
-  
+
+
 }
 export default RecentTracks;

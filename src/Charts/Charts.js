@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Bar, Radar,Line} from 'react-chartjs-2';
 import { Chart } from 'react-google-charts';
 import loading from '../Callback/loading.svg';
+import {Chart as chartjs} from 'react-chartjs-2';
 import RecentTracks from './RecentTracks';
 import * as service from '../Services/services';
 
@@ -169,13 +170,13 @@ class Charts extends Component {
     scaleLineColor: 'transparent',
     maintainAspectRatio: false,
     scales: {
-      xAxes: [{        
+      xAxes: [{
           barPercentage: 0.4,
           ticks: {
             autoSkip: false,
             maxRotation: 90,
             minRotation: 90
-          },      
+          },
       }],
       yAxes: [{
         display: false,
@@ -199,6 +200,46 @@ class Charts extends Component {
   }
   }
     }
+  }
+
+  componentDidMount(){
+    chartjs.pluginService.register({
+                afterDraw: () => {
+                  if(typeof this.refs.chart !== 'undefined'){
+                    let ctx = this.refs.chart.chart_instance.chart.ctx;
+                    ctx.font = "12px Verdana";
+                    ctx.fillStyle = "#000000";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "bottom";
+
+                    this.refs.chart.chart_instance.chart.config.data.datasets.forEach(function (dataset) {
+                            const dataArray = dataset.data;
+                            if(typeof dataset._meta[0] !== 'undefined'){
+                              dataset._meta[0].data.forEach(function (bar, index) {
+                                  ctx.fillText(dataArray[index]+'%', bar._view.x, bar._view.y);
+                              });
+                            }
+                    })
+                  }
+
+                  if(typeof this.refs.chart1 !== 'undefined'){
+                    let ctx1 = this.refs.chart1.chart_instance.chart.ctx;
+                    ctx1.font = "12px Verdana";
+                    ctx1.fillStyle = "#000000";
+                    ctx1.textAlign = "center";
+                    ctx1.textBaseline = "bottom";
+
+                    this.refs.chart1.chart_instance.chart.config.data.datasets.forEach(function (dataset) {
+                            const dataArray = dataset.data;
+                            if(typeof dataset._meta[1] !== 'undefined'){
+                              dataset._meta[1].data.forEach(function (bar, index) {
+                                  ctx1.fillText(dataArray[index]+'%', bar._view.x, bar._view.y);
+                              });
+                            }
+                    })
+                  }
+                }
+            });
   }
 
   componentWillMount(){
@@ -238,7 +279,7 @@ class Charts extends Component {
           tracksTempoData:['tempo',dataTempo.min - 5 ,dataTempo.min,dataTempo.max,dataTempo.max + 5],
           tracksLoudnessData:['loudness',dataLoudness.min - 5,dataLoudness.min,dataLoudness.max,dataLoudness.max + 5 ]
         });
-        
+
       }).catch((e)=>{
         console.log('error',e)
       })
@@ -253,13 +294,13 @@ class Charts extends Component {
         for (var key in afterNoonData) {
           if (afterNoonData.hasOwnProperty(key)) {
               labels.push(key)
-              values.push(afterNoonData[key].max); 
+              values.push(afterNoonData[key].max);
           }
          }
 
          for (var key in morningData) {
           if (morningData.hasOwnProperty(key)) {
-            morningValues.push(morningData[key].max); 
+            morningValues.push(morningData[key].max);
           }
          }
 
@@ -272,6 +313,9 @@ class Charts extends Component {
       }).catch((e)=>{
         console.log('error',e)
       })
+
+
+
 
   }
   render() {
@@ -292,15 +336,15 @@ class Charts extends Component {
         <section className="container-fluid wd">
         <div className="inner_section">
           <RecentTracks/>
- 
+
         <div className="clearfix"><h3>Correlations of Sales and Music Feature (hourly) <span>:</span></h3></div>
         <div className="empty_d clearfix">
-          <Bar data={this.state.coorelations.data} width={600} height={600} options={this.state.coreationOption}/>
+          <Bar ref= "chart" data={this.state.coorelations.data} width={600} height={600} options={this.state.coreationOption}/>
         </div>
 
         <div className="clearfix"><h3>Average Price Per Unit and Music Feature Correlations (hourly) <span>:</span></h3></div>
         <div className="empty_d clearfix">
-          <Bar data={this.state.priceCoorelations.data} width={600} height={600} options={this.state.coreationOption}/>
+          <Bar ref= "chart1" data={this.state.priceCoorelations.data} width={600} height={600} options={this.state.coreationOption}/>
         </div>
 
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
@@ -317,13 +361,13 @@ class Charts extends Component {
                               options={{legend: 'none',
                                   bar: { groupWidth: '100%' },
                                   candlestick: {
-                                    fallingColor: { strokeWidth: 0, fill: '#FE826A' }, 
-                                    risingColor: { strokeWidth: 0, fill: '#FE826A' } 
+                                    fallingColor: { strokeWidth: 0, fill: '#FE826A' },
+                                    risingColor: { strokeWidth: 0, fill: '#FE826A' }
                                   }}}
                               width="100%"
                               height="600px"
                             />:''}
-          
+
           </div>
           <div className="col-sm-4">
           {this.state.tracksLoudnessData.length > 0?<Chart
@@ -332,8 +376,8 @@ class Charts extends Component {
                               options={{legend: 'none',
                                   bar: { groupWidth: '100%' },
                                   candlestick: {
-                                    fallingColor: { strokeWidth: 0, fill: '#FE826A' }, 
-                                    risingColor: { strokeWidth: 0, fill: '#FE826A' } 
+                                    fallingColor: { strokeWidth: 0, fill: '#FE826A' },
+                                    risingColor: { strokeWidth: 0, fill: '#FE826A' }
                                   }}}
                               width="100%"
                               height="600px"
@@ -346,8 +390,8 @@ class Charts extends Component {
                               options={{legend: 'none',
                                   bar: { groupWidth: '100%' },
                                   candlestick: {
-                                    fallingColor: { strokeWidth: 0, fill: '#FE826A' }, 
-                                    risingColor: { strokeWidth: 0, fill: '#FE826A' } 
+                                    fallingColor: { strokeWidth: 0, fill: '#FE826A' },
+                                    risingColor: { strokeWidth: 0, fill: '#FE826A' }
                                   }}}
                               width="100%"
                               height="600px"
@@ -368,13 +412,13 @@ class Charts extends Component {
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
         <div className="empty_d clearfix">
           <div className="col-sm-4">
-            <Line data={this.state.payment.data}  height={400} options={this.state.paymentOptions}/>        
+            <Line data={this.state.payment.data}  height={400} options={this.state.paymentOptions}/>
           </div>
           <div className="col-sm-4">
-           <Line data={this.state.averageItemPurchased.data} height={400} options={this.state.options}/>        
+           <Line data={this.state.averageItemPurchased.data} height={400} options={this.state.options}/>
           </div>
           <div className="col-sm-4">
-            <Line data={this.state.averagePricePurchased.data}  height={400} options={this.state.paymentOptions}/>        
+            <Line data={this.state.averagePricePurchased.data}  height={400} options={this.state.paymentOptions}/>
           </div>
         </div>
         </div>
@@ -387,9 +431,9 @@ class Charts extends Component {
         </div>
       );
     }
-       
+
       }
-    
-  
+
+
 }
 export default Charts;
