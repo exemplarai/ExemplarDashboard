@@ -56,9 +56,9 @@ body {
    disloadplay: inline-block;
    /* height: 100px;*/
    width:100%;
-   background-color: #fff;
+  background-color: #fff;
    margin-bottom: 50px;
-   border: 1px solid #777777;
+
    padding: 15px;
 }
 .inner_section h3{
@@ -74,7 +74,7 @@ body {
   margin-top: 0px!important;
 }
 .brns {
-  padding: 20px;
+  padding: 16px 20px;
     background-color: #fff;
     box-shadow: 0 6px 1px #e7e7e7;
     position: fixed;
@@ -98,4 +98,126 @@ span.datactive div{
 }
 .load img{
   width:150px !important;
+}
+
+
+
+.d_to .div_to.d12 {
+    border: 2px solid #f3f3f3;
+    padding: 0 5px;
+    border-radius: 4px;
+}
+
+
+.d_to .div_to {
+    float: left;
+    margin-right: 25px;
+    font-weight: bold;
+    line-height: 48px;
+    text-transform: lowercase;
+    font-size: 20px;
+}
+
+.d_to .div_to.d12 input {
+    text-align: center;
+    font-weight: bold !important;
+    font-size: 20px;
+}
+
+.d_to .div_to.d12 .b-n hr {
+    display: none;
+}
+
+.d_to .d12 hr {
+    display: none;
+}
+
+.cont1 h3 {
+    text-align: center;
+    border-top: 1px solid #cccccc;
+    padding-top: 50px;
+    margin-top: 50px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.cont1 h3 span {
+    display: block;
+    font-weight: 200;
+    margin-top: 15px;
+    margin-bottom: 50px;
+}
+
+.cont1 {
+    background-color: #ffffff;
+    width: 49% !important;
+}
+
+.cont1.cont2 {
+    float: right;
+}
+
+.empty_d.clearfix.empt {
+    background-color: #f6f6f6;
+}
+
+div#tooltip {
+    background-color: #fff;
+    width: 50%;
+    padding: 25px;
+    margin-top: 100px;
+}
+
+div#tooltip li.activetooltip {
+    color: red;
+}
+
+div#tooltip li {
+    list-style-type: none;
+    margin-bottom: 15px;
+    text-transform: capitalize;
+    font-size: 15px;
+}
+
+div#tooltip li:last-child {
+    margin-bottom: 0;
+}
+
+.brns img.brand-logo {
+    float: left;
+}
+
+.brns button {
+    float: right;
+}
+
+.brns button div {
+    float: right;
+}
+
+.sidebar-nav-content h3 {
+    padding-left: 20px;
+    font-weight: 200;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 20px;
+    margin-top: 73px;
+}
+
+h2.charts-heading {
+    text-align: center;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: #393C40;
+    font-size: 26px;
+}
+.div_to.d12 div {
+    width: auto !important;
+}
+@media (max-width:1400px){
+.div_to.d12 div input{
+    width: 100px !important;
+}
 }

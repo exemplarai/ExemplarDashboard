@@ -47,7 +47,7 @@ class Charts extends Component {
         datasets: [
           {
             label: 'Morning',
-            backgroundColor: 'rgba(253,109,88,0.5)',
+            backgroundColor: 'rgba(172,159,184,0.8)',
             pointBackgroundColor: 'rgba(179,181,198,1)',
             pointBorderColor: '#272A51',
             pointHoverBackgroundColor: '#fff',
@@ -62,14 +62,11 @@ class Charts extends Component {
       labels: [],
       datasets: [
         {
-          label: 'General',
-          backgroundColor: 'rgba(253,109,88,0.5)',
-          pointBackgroundColor: 'rgba(179,181,198,1)',
-          pointBorderColor: '#272A51',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(179,181,198,1)',
+          label: 'Avg',
+          backgroundColor: 'rgba(252,107,87,0.8)',borderColor: "rgba(179,181,198,1)",
+          borderColor: "rgba(252,107,87,0)",
           data: []
-        }
+        },
       ]
   },
 },
@@ -79,23 +76,7 @@ class Charts extends Component {
       datasets: [
         {
           label: 'Afternoon',
-          backgroundColor: 'rgba(253,109,88,0.5)',
-          pointBackgroundColor: 'rgba(179,181,198,1)',
-          pointBorderColor: '#272A51',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(179,181,198,1)',
-          data: []
-        }
-      ]
-  },
-},
-  baseline:{
-    data:{
-      labels: [],
-      datasets: [
-        {
-          label: 'Music Baseline',
-          backgroundColor: 'rgba(253,109,88,0.5)',
+          backgroundColor: 'rgba(172,159,184,0.8)',
           pointBackgroundColor: 'rgba(179,181,198,1)',
           pointBorderColor: '#272A51',
           pointHoverBackgroundColor: '#fff',
@@ -184,6 +165,9 @@ class Charts extends Component {
     }
   },
   coreationOption:{
+    legend: {
+        display: false
+    },
     scaleLineColor: 'transparent',
     maintainAspectRatio: false,
     scales: {
@@ -206,7 +190,50 @@ class Charts extends Component {
   }
   },
   radarOptions:{
+    tooltips: {
+                enabled:false,
+                custom: function(tooltipModel) {
+                    // Tooltip Element
+                    var tooltipEl = document.getElementById('chartjs-tooltip');
+
+                    // Hide if no tooltip
+                    if (tooltipModel.opacity === 0) {
+                        document.getElementById('tooltip').innerHTML = '';
+                        document.getElementById('tooltip').style.boxShadow = ''
+                        return;
+                    }
+
+
+
+                    function getBody(bodyItem) {
+                        return bodyItem.lines;
+                    }
+
+                    // Set Text
+                    if (tooltipModel.body) {
+                        var titleLines = tooltipModel.title || [];
+                        let titleName = '';
+                        titleLines.forEach(function(title) {
+                            titleName = title;
+                        });
+                        let html = '';
+                        let labels = JSON.parse(localStorage.getItem('labels'));
+                        let data = JSON.parse(localStorage.getItem('data'));
+                        for(var i=0; i < labels.length;i++){
+                              let activeclass = '';
+                              if(titleName === labels[i]){
+                              activeclass = 'activetooltip';
+                              }
+                            html += '<li class="'+activeclass+'">'+labels[i]+' - '+data[i].toFixed(2)+'</li>';
+                        }
+                        document.getElementById('tooltip').innerHTML = html;
+                        document.getElementById('tooltip').style.boxShadow = '0px 1px 16px 2px #f3f3f3'
+                    }
+                }},
     maintainAspectRatio: false,
+    legend: {
+        display: false
+    },
     scale: {
     pointLabels: {
       fontSize: 20,
@@ -220,6 +247,8 @@ class Charts extends Component {
     }
       }
     }
+
+  this.getBaseLineChart = this.getBaseLineChart.bind(this);
   }
 
   componentDidMount(){
@@ -265,7 +294,7 @@ class Charts extends Component {
               let averageItemPurchasedData = [];
               let averagePricePurchasedData = [];
               result.data.map((item)=>{
-                labels.push(item.day);
+                labels.push(item.day.substring(0, 3));
                 data.push(item.averageSale);
                 averageItemPurchasedData.push(item.averageItemsPurchased);
                 averagePricePurchasedData.push(item.averageItemPrice);
@@ -299,48 +328,52 @@ class Charts extends Component {
         console.log('error',e)
       })
 
-      /* Get Spider API */
-     service.getMusicBaseline().then((result)=>{
-        let labels = [];
-        let afternoonValues = [];
-        let morningValues = [];
-        let generalValues = [];
-        let afterNoonData = result.data.afternoon;
-        let morningData = result.data.morning;
-        let generalData = result.data.general;
-        for (var key in afterNoonData) {
-          if (afterNoonData.hasOwnProperty(key)) {
-              labels.push(key)
-              afternoonValues.push(afterNoonData[key].avg);
+      this.getBaseLineChart();
+
+  }
+
+  getBaseLineChart = (from,to)=>{
+    service.getMusicBaseline(from,to).then((result)=>{
+       let labels = [];
+       let afternoonValues = [];
+       let morningValues = [];
+       let generalAvgValues = []
+       let afterNoonData = result.data.afternoon;
+       let morningData = result.data.morning;
+       let generalData = result.data.general;
+       for (var key in afterNoonData) {
+         if (afterNoonData.hasOwnProperty(key)) {
+             labels.push(key)
+             afternoonValues.push(afterNoonData[key].avg);
+         }
+        }
+
+        for (var key in morningData) {
+         if (morningData.hasOwnProperty(key)) {
+           morningValues.push(morningData[key].avg);
+         }
+        }
+
+        for (var key in generalData) {
+          if (generalData.hasOwnProperty(key)) {
+              generalAvgValues.push(generalData[key].avg);
           }
          }
 
-         for (var key in morningData) {
-          if (morningData.hasOwnProperty(key)) {
-            morningValues.push(morningData[key].avg);
-          }
-         }
+     var stateCopy = Object.assign({},this.state);
+     stateCopy.baselineMorning.data['labels'] = labels;
+     stateCopy.baselineMorning.data.datasets[0]['data'] = morningValues;
+     stateCopy.baselineAfternoon.data['labels'] = labels;
+     stateCopy.baselineAfternoon.data.datasets[0]['data'] = afternoonValues;
 
-         for (var key in generalData) {
-           if (generalData.hasOwnProperty(key)) {
-               generalValues.push(afterNoonData[key].avg);
-           }
-          }
-
-      var stateCopy = Object.assign({},this.state);
-      stateCopy.baselineMorning.data['labels'] = labels;
-      stateCopy.baselineMorning.data.datasets[0]['data'] = morningValues;
-      stateCopy.baselineAfternoon.data['labels'] = labels;
-      stateCopy.baselineAfternoon.data.datasets[0]['data'] = afternoonValues;
-      stateCopy.baselineGeneral.data['labels'] = labels;
-      stateCopy.baselineGeneral.data.datasets[0]['data'] = generalValues;
-      this.setState({stateCopy})
-      }).catch((e)=>{
-        console.log('error',e)
-      })
-
-
-
+     stateCopy.baselineGeneral.data['labels'] = labels;
+     stateCopy.baselineGeneral.data.datasets[0]['data'] = generalAvgValues;
+     localStorage.setItem('labels',JSON.stringify(labels));
+     localStorage.setItem('data',JSON.stringify(generalAvgValues));
+     this.setState({stateCopy})
+     }).catch((e)=>{
+       console.log('error',e)
+     })
 
   }
   render() {
@@ -364,21 +397,23 @@ class Charts extends Component {
 
         <div className="clearfix"><h3>Correlations of Sales and Music Feature (hourly) <span>:</span></h3></div>
         <div className="empty_d clearfix">
+          <h2 className="charts-heading">Correations between music features and sales</h2>
           <Bar ref= "chart" data={this.state.coorelations.data} width={600} height={600} options={this.state.coreationOption}/>
         </div>
 
         <div className="clearfix"><h3>Average Price Per Unit and Music Feature Correlations (hourly) <span>:</span></h3></div>
         <div className="empty_d clearfix">
+          <h2 className="charts-heading">Correations between music features and sales</h2>
           <Bar ref= "chart1" data={this.state.priceCoorelations.data} width={600} height={600} options={this.state.coreationOption}/>
         </div>
 
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
 
-          <MusicBaselineGeneral general={this.state.baselineGeneral.data}/>
-
+          <MusicBaselineGeneral general={this.state.baselineGeneral.data} onDateFilter={this.getBaseLineChart.bind(this)} options={this.state.radarOptions}/>
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
         <div className="empty_d clearfix">
           <div className="col-sm-4">
+            <h2 className="charts-heading">Track durations (minutes)</h2>
             {this.state.tracksDurationData.length > 0?<Chart
                               chartType="CandlestickChart"
                               data={[["DAY","val1","val2","val3","val4"],this.state.tracksDurationData]}
@@ -394,6 +429,7 @@ class Charts extends Component {
 
           </div>
           <div className="col-sm-4">
+            <h2 className="charts-heading">Loudness (dBs)</h2>
           {this.state.tracksLoudnessData.length > 0?<Chart
                               chartType="CandlestickChart"
                               data={[["DAY","val1","val2","val3","val4"],this.state.tracksLoudnessData]}
@@ -408,6 +444,7 @@ class Charts extends Component {
                             />:''}
           </div>
           <div className="col-sm-4">
+          <h2 className="charts-heading">Tempo (bpm)</h2>
           {this.state.tracksTempoData.length > 0?<Chart
                               chartType="CandlestickChart"
                               data={[["DAY","val1","val2","val3","val4"],this.state.tracksTempoData]}
@@ -424,25 +461,35 @@ class Charts extends Component {
         </div>
 
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
-        <div className="empty_d clearfix">
-          <div className="col-sm-6">
-            <Radar data={this.state.baselineMorning.data} width={600} height={600} options={this.state.radarOptions}/>
-          </div>
-          <div className="col-sm-6">
-            <Radar data={this.state.baselineAfternoon.data} width={600} height={600} options={this.state.radarOptions}/>
-          </div>
+        <div className="empty_d clearfix empt">
+        <div className="col-sm-6 cont1">
+        <div className="cont">
+          <Radar data={this.state.baselineMorning.data} width={600} height={600} options={this.state.radarOptions}/>
+        </div>
+        <h3>Morning <span>6:00am - 11:59pm</span></h3>
+        </div>
+        <div className="col-sm-6 cont1 cont2">
+        <div className="cont">
+          <Radar data={this.state.baselineAfternoon.data} width={600} height={600} options={this.state.radarOptions}/>
+        </div>
+        <h3>Afternoon <span>12:00pm - 05:30pm</span></h3>
+      </div>
+
         </div>
 
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
         <div className="empty_d clearfix">
           <div className="col-sm-4">
-            <Line data={this.state.payment.data}  height={400} options={this.state.paymentOptions}/>
+
+            <Line data={this.state.payment.data}  height={500} options={this.state.paymentOptions}/>
           </div>
           <div className="col-sm-4">
-           <Line data={this.state.averageItemPurchased.data} height={400} options={this.state.options}/>
+
+           <Line data={this.state.averageItemPurchased.data} height={500} options={this.state.options}/>
           </div>
           <div className="col-sm-4">
-            <Line data={this.state.averagePricePurchased.data}  height={400} options={this.state.paymentOptions}/>
+
+            <Line data={this.state.averagePricePurchased.data}  height={500} options={this.state.paymentOptions}/>
           </div>
         </div>
         </div>
@@ -451,7 +498,7 @@ class Charts extends Component {
     }else {
       return (
         <div style={style}>
-          <img src={loading} alt="loading"/>
+          <img src={loading} alt="loading" style={{width:'120px'}}/>
         </div>
       );
     }

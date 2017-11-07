@@ -3,7 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import './Dashboard.css';
 import squareimg from './square-logo-light.png';
 import spotifyimg from './spotify.png';
-import logoimg from '../logo.png';
+import logoimg from '../music.png';
 import loading from '../Callback/loading.svg';
 import axios from 'axios'
 import Charts from '../Charts/Charts'
@@ -12,15 +12,14 @@ import Sidebar from 'react-sidebar';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Menu from 'material-ui/Menu';
-import ActionHome from 'material-ui/svg-icons/navigation/menu';
-import DeviceUsb from 'material-ui/svg-icons/device/usb';
-import DeviceNetworkCell from 'material-ui/svg-icons/device/network-cell';
+import FaSignal from 'react-icons/lib/fa/signal';
+import GoGitBranch from 'react-icons/lib/go/git-branch';
 class Dashboard extends Component {
 
   state ={
     menuOpen:true,
     componentToRender:'Analytics',
-    importFile:0
+    width:'85%'
   };
 
   login() {
@@ -32,7 +31,7 @@ class Dashboard extends Component {
   }
 
   menuToggle() {
-    this.setState({importFile:this.state.importFile+1});
+    {this.state.menuOpen?this.setState({width:'100%'}):this.setState({width:'85%'})}
     this.setState({menuOpen:!this.state.menuOpen});
   }
 
@@ -85,20 +84,11 @@ class Dashboard extends Component {
       <a href="javascript:void();"><img src={logoimg} alt="Main Logo"/></a>
     </div>
     <div className="sidebar-nav-content">
+      <h3>Main Menu</h3>
       <Menu width="230px">
-        <MenuItem className={ this.state.componentToRender !== "Analytics" ? "datactive" : null} primaryText="Integration" onClick={() => this.setState({componentToRender:"Integration"})} leftIcon={<DeviceUsb />}/>
-        <MenuItem className={ this.state.componentToRender !== "Integration" ? "datactive" : null} primaryText="Analytics" onClick={() => this.setState({componentToRender:"Analytics"})} leftIcon={<DeviceNetworkCell />}/>
+        <MenuItem className={ this.state.componentToRender !== "Integration" ? "datactive" : null} primaryText="Analytics" onClick={() => this.setState({componentToRender:"Analytics"})} leftIcon={<FaSignal color={this.state.componentToRender !== "Integration" ? "#fff" : '#000'} />}/>
+        <MenuItem className={ this.state.componentToRender !== "Analytics" ? "datactive" : null} primaryText="Integration" onClick={() => this.setState({componentToRender:"Integration"})} leftIcon={<GoGitBranch color={this.state.componentToRender !== "Analytics" ? "#fff" : '#000'}/>}/>
       </Menu>
-      {
-                !isAuthenticated() && (
-                    <FlatButton label="Log In" onClick={this.login.bind(this)} style={{ margin: '32px 3px'}}/>
-                  )
-              }
-              {
-                isAuthenticated() && (
-                    <FlatButton label="Log out" onClick={this.logout.bind(this)} style={{ margin: '32px 3px'}}/>
-                  )
-              }
     </div>
     </div>;
     const style = {
@@ -122,8 +112,19 @@ class Dashboard extends Component {
             <Sidebar sidebar={sidebarContent}
                open={this.state.menuOpen} docked={this.state.menuOpen}>
             <div className="profile-area">
-              <div className="brns">
-              <img className="brand-logo" onClick={this.menuToggle.bind(this)} src={menu} style={{height:27,width:27,position:'relative'}} /></div>
+              <div className="brns" style={{'width':this.state.width}}>
+              <img className="brand-logo" onClick={this.menuToggle.bind(this)} src={menu} style={{height:27,width:27,position:'relative'}} />
+
+              {
+                        !isAuthenticated() && (
+                            <FlatButton label="Log In" onClick={this.login.bind(this)}/>
+                          )
+                      }
+                      {
+                        isAuthenticated() && (
+                            <FlatButton label="Log out" onClick={this.logout.bind(this)}/>
+                          )
+                      }</div>
               {
                   this.state.componentToRender == "Analytics"
                   ?
