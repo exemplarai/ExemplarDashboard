@@ -85,7 +85,7 @@ class Dashboard extends Component {
       <a href="javascript:void();"><img src={logoimg} alt="Main Logo"/></a>
     </div>
     <div className="sidebar-nav-content">
- <Menu width="230px">
+      <Menu width="230px">
         <MenuItem className={ this.state.componentToRender !== "Analytics" ? "datactive" : null} primaryText="Integration" onClick={() => this.setState({componentToRender:"Integration"})} leftIcon={<DeviceUsb />}/>
         <MenuItem className={ this.state.componentToRender !== "Integration" ? "datactive" : null} primaryText="Analytics" onClick={() => this.setState({componentToRender:"Analytics"})} leftIcon={<DeviceNetworkCell />}/>
       </Menu>

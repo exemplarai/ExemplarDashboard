@@ -91,7 +91,10 @@ section.container-fluid.wd {
   padding-left: 15px;
 }
 span.datactive {
-    background-color: #e7e7e7 !important;
+    background-color: #FF5F3F !important;
+}
+span.datactive div{
+    color: #FFF;
 }
 .load img{
   width:150px !important;

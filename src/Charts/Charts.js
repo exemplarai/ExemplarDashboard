@@ -4,6 +4,7 @@ import { Chart } from 'react-google-charts';
 import loading from '../Callback/loading.svg';
 import {Chart as chartjs} from 'react-chartjs-2';
 import RecentTracks from './RecentTracks';
+import MusicBaselineGeneral from './MusicBaselineGeneral';
 import * as service from '../Services/services';
 
 class Charts extends Component {
@@ -13,7 +14,7 @@ class Charts extends Component {
     this.state={
       coorelations:{
         data:{
-          labels: ['Album Popularity', 'Loudness', 'Energy', 'April', 'May', 'June', 'July'],
+          labels: ['Album Popularity', 'Loudness', 'Energy', 'Dancebility', 'Duration', 'Tempo', 'Mode'],
           datasets: [
             {
               label: 'Correlations of Sales and Music Feature',
@@ -29,7 +30,7 @@ class Charts extends Component {
     },
     priceCoorelations:{
       data:{
-        labels: ['Album Popularity', 'Loudness', 'Energy', 'April', 'May', 'June', 'July'],
+        labels: ['Album Popularity', 'Loudness', 'Energy', 'Dancebility', 'Duration', 'Tempo', 'Mode'],
         datasets: [
           {
             label: 'Correlations of Sales and Music Feature',
@@ -56,6 +57,22 @@ class Charts extends Component {
         ]
     },
   },
+  baselineGeneral:{
+    data:{
+      labels: [],
+      datasets: [
+        {
+          label: 'General',
+          backgroundColor: 'rgba(253,109,88,0.5)',
+          pointBackgroundColor: 'rgba(179,181,198,1)',
+          pointBorderColor: '#272A51',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(179,181,198,1)',
+          data: []
+        }
+      ]
+  },
+},
   baselineAfternoon:{
     data:{
       labels: [],
@@ -175,67 +192,65 @@ class Charts extends Component {
           ticks: {
             autoSkip: false,
             maxRotation: 90,
-            minRotation: 90
+            minRotation: 90,
+            fontSize: 20
           },
       }],
       yAxes: [{
         display: false,
         gridLines: {
           color: "rgba(0, 0, 0, 0)",
-          display : false
+          display : false,
       }
     }]
   }
   },
   radarOptions:{
     maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        beginAtZero: true,
-        display: false,
-    }],
-    yAxes: [{
-      display: false,
-  }]
-  }
-  }
+    scale: {
+    pointLabels: {
+      fontSize: 20,
+  },
+      ticks: {
+            beginAtZero: true,
+            userCallback: function (value, index, values) {
+                return '';
+            }
+        }
+    }
+      }
     }
   }
 
   componentDidMount(){
     chartjs.pluginService.register({
-                afterDraw: () => {
+                afterDraw: (e) => {
                   if(typeof this.refs.chart !== 'undefined'){
                     let ctx = this.refs.chart.chart_instance.chart.ctx;
-                    ctx.font = "12px Verdana";
-                    ctx.fillStyle = "#000000";
+                    ctx.font = "15px Arial";
+                    ctx.fillStyle = "#2A2D55";
                     ctx.textAlign = "center";
                     ctx.textBaseline = "bottom";
-
                     this.refs.chart.chart_instance.chart.config.data.datasets.forEach(function (dataset) {
                             const dataArray = dataset.data;
-                            if(typeof dataset._meta[0] !== 'undefined'){
-                              dataset._meta[0].data.forEach(function (bar, index) {
+                              dataset._meta[Object.keys(dataset._meta)[0]].data.forEach(function (bar, index) {
                                   ctx.fillText(dataArray[index]+'%', bar._view.x, bar._view.y);
                               });
-                            }
                     })
                   }
 
                   if(typeof this.refs.chart1 !== 'undefined'){
                     let ctx1 = this.refs.chart1.chart_instance.chart.ctx;
-                    ctx1.font = "12px Verdana";
-                    ctx1.fillStyle = "#000000";
+                    ctx1.font = "15px Arial";
+                    ctx1.fillStyle = "#2A2D55";
                     ctx1.textAlign = "center";
                     ctx1.textBaseline = "bottom";
 
                     this.refs.chart1.chart_instance.chart.config.data.datasets.forEach(function (dataset) {
                             const dataArray = dataset.data;
-                            if(typeof dataset._meta[1] !== 'undefined'){
-                              dataset._meta[1].data.forEach(function (bar, index) {
+                              dataset._meta[Object.keys(dataset._meta)[0]].data.forEach(function (bar, index) {
                                   ctx1.fillText(dataArray[index]+'%', bar._view.x, bar._view.y);
                               });
-                            }
                     })
                   }
                 }
@@ -275,9 +290,9 @@ class Charts extends Component {
         let dataLoudness = result.data.loudness;
         let dataTempo = result.data.tempo;
         this.setState({
-          tracksDurationData:['duration',dataDuration.min - 5,dataDuration.min,dataDuration.max,dataDuration.max + 5],
-          tracksTempoData:['tempo',dataTempo.min - 5 ,dataTempo.min,dataTempo.max,dataTempo.max + 5],
-          tracksLoudnessData:['loudness',dataLoudness.min - 5,dataLoudness.min,dataLoudness.max,dataLoudness.max + 5 ]
+          tracksDurationData:['duration',dataDuration.min - 5,dataDuration.min,dataDuration.avg,dataDuration.avg + 5],
+          tracksTempoData:['tempo',dataTempo.min - 5 ,dataTempo.min,dataTempo.avg,dataTempo.avg + 5],
+          tracksLoudnessData:['loudness',dataLoudness.min - 5,dataLoudness.min,dataLoudness.avg,dataLoudness.avg + 5 ]
         });
 
       }).catch((e)=>{
@@ -287,28 +302,38 @@ class Charts extends Component {
       /* Get Spider API */
      service.getMusicBaseline().then((result)=>{
         let labels = [];
-        let values = [];
-        let morningValues = []
+        let afternoonValues = [];
+        let morningValues = [];
+        let generalValues = [];
         let afterNoonData = result.data.afternoon;
         let morningData = result.data.morning;
+        let generalData = result.data.general;
         for (var key in afterNoonData) {
           if (afterNoonData.hasOwnProperty(key)) {
               labels.push(key)
-              values.push(afterNoonData[key].max);
+              afternoonValues.push(afterNoonData[key].avg);
           }
          }
 
          for (var key in morningData) {
           if (morningData.hasOwnProperty(key)) {
-            morningValues.push(morningData[key].max);
+            morningValues.push(morningData[key].avg);
           }
          }
 
+         for (var key in generalData) {
+           if (generalData.hasOwnProperty(key)) {
+               generalValues.push(afterNoonData[key].avg);
+           }
+          }
+
       var stateCopy = Object.assign({},this.state);
       stateCopy.baselineMorning.data['labels'] = labels;
-      stateCopy.baselineMorning.data.datasets[0]['data'] = values;
+      stateCopy.baselineMorning.data.datasets[0]['data'] = morningValues;
       stateCopy.baselineAfternoon.data['labels'] = labels;
-      stateCopy.baselineAfternoon.data.datasets[0]['data'] = morningValues;
+      stateCopy.baselineAfternoon.data.datasets[0]['data'] = afternoonValues;
+      stateCopy.baselineGeneral.data['labels'] = labels;
+      stateCopy.baselineGeneral.data.datasets[0]['data'] = generalValues;
       this.setState({stateCopy})
       }).catch((e)=>{
         console.log('error',e)
@@ -348,9 +373,8 @@ class Charts extends Component {
         </div>
 
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
-        <div className="empty_d clearfix">
-          <Radar data={this.state.baselineMorning.data} width={600} height={600} options={this.state.radarOptions}/>
-        </div>
+
+          <MusicBaselineGeneral general={this.state.baselineGeneral.data}/>
 
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
         <div className="empty_d clearfix">
@@ -402,10 +426,10 @@ class Charts extends Component {
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
         <div className="empty_d clearfix">
           <div className="col-sm-6">
-            <Radar data={this.state.baselineMorning.data} width={600} height={600} options={this.state.options}/>
+            <Radar data={this.state.baselineMorning.data} width={600} height={600} options={this.state.radarOptions}/>
           </div>
           <div className="col-sm-6">
-            <Radar data={this.state.baselineAfternoon.data} width={600} height={600} options={this.state.options}/>
+            <Radar data={this.state.baselineAfternoon.data} width={600} height={600} options={this.state.radarOptions}/>
           </div>
         </div>
 

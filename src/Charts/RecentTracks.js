@@ -14,7 +14,7 @@ class RecentTracks extends Component {
   componentWillMount(){
     /* Get Payments API */
         service.getRecentTracks().then((result)=>{
-             let tracks = result.data;
+          let tracks = result.data;
              this.setState({tracks:tracks});
         }).catch((e)=>{
           console.log('error',e)
@@ -34,23 +34,20 @@ class RecentTracks extends Component {
             <div className="row">
             <div className="col-sm-12"><h3>Recent Tracks <span>:</span></h3></div>
             {this.state.tracks.map(function(tracks, i){
-console.log(tracks);
-         return (
-<div className="col-sm-3" key={i}>
-      <div className="track">
-        <img src={tracks.track.album.images[0].url} className="img-fluid"/>
-        <div className="txt">
+                 return (
+        <div className="col-sm-3" key={i}>
+              <div className="track">
+                <img src={tracks.track.album.images[0].url} className="img-fluid"/>
+                <div className="txt">
 
-          <h1>{tracks.track.name}</h1>
-          <span className="arr"><i className="fa fa-angle-right" aria-hidden="true"></i></span>
-        </div>
-      </div>
-    </div>
-    )
-      })
-
-          }
-
+                  <h1>{tracks.track.name}</h1>
+                  <span className="arr"><i className="fa fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+              </div>
+            </div>
+            )
+              })
+              }
             </div>
           </div>
         </div>

@@ -1,6 +1,5 @@
 import axios from 'axios';
 export function getPayments(){
-    //return getAuthorizationHeader()
     return axios.get('https://api.exemplar.ai/analytics/FM9W3RHMJFQ5M/payments.general?from=2017-10-18&to=2017-10-25&offset=-08%3A00',{headers:getAuthorizationHeader()});
 }
 
@@ -18,4 +17,4 @@ export function getRecentTracks(){
 
 function  getAuthorizationHeader(){
     return {'Authorization': `Bearer ${localStorage.getItem('access_token')}`};
-  };
+};
