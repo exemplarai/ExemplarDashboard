@@ -14,12 +14,18 @@ import FlatButton from 'material-ui/FlatButton';
 import Menu from 'material-ui/Menu';
 import FaSignal from 'react-icons/lib/fa/signal';
 import GoGitBranch from 'react-icons/lib/go/git-branch';
+import DatePicker from 'material-ui/DatePicker';
+
 class Dashboard extends Component {
 
+  
   state ={
     menuOpen:true,
     componentToRender:'Analytics',
-    width:'85%'
+    width:'85%',
+    minDate: new Date('2017-10-15'),
+    maxDate : new Date('2017-10-31'),
+    autoOk:true
   };
 
   login() {
@@ -77,6 +83,25 @@ class Dashboard extends Component {
     }
   }
 
+  handleChangeMinDate = (event, date) => {
+    let maxDate;
+    if(date > this.state.maxDate){
+      maxDate = date;
+    }else{
+      maxDate = this.state.maxDate
+    }
+      this.setState({
+        minDate: date,
+        maxDate:maxDate,
+      });
+    };
+
+    handleChangeMaxDate = (event, date) => {
+      this.setState({
+        maxDate: date,
+      });
+    };
+
   render() {
     const { isAuthenticated } = this.props.auth
     var sidebarContent = <div className="sidebar-nav">
@@ -114,6 +139,26 @@ class Dashboard extends Component {
             <div className="profile-area">
               <div className="brns" style={{'width':this.state.width}}>
               <img className="brand-logo" onClick={this.menuToggle.bind(this)} src={menu} style={{height:27,width:27,position:'relative'}} />
+              
+              {this.state.componentToRender === "Analytics" ? 
+              <div className="timeRange d_to clearfix">
+              <DatePicker
+                          onChange={this.handleChangeMinDate}
+                          autoOk={this.state.autoOk}
+                          defaultDate={this.state.minDate}
+                          name="from_date"
+                          className="div_to d12"
+                        />
+              <span className="div_to">To</span>
+              <DatePicker
+                onChange={this.handleChangeMaxDate}
+                autoOk={this.state.autoOk}
+                value={this.state.maxDate}
+                minDate={this.state.minDate}
+                name="to_date"
+                className="div_to d12"
+              />
+                </div>:''}
 
               {
                         !isAuthenticated() && (
@@ -128,7 +173,7 @@ class Dashboard extends Component {
               {
                   this.state.componentToRender == "Analytics"
                   ?
-                  <Charts />
+                  <Charts start_date={this.state.minDate} end_date={this.state.maxDate}/>
                   :
                   <div className="profile-area container-fluid">
                   <h2 className="heading1">Link Your Account To Begin Learning:</h2>

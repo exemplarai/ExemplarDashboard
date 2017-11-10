@@ -12,7 +12,6 @@ class RecentTracks extends Component {
   }
 
   componentWillMount(){
-    /* Get Payments API */
         service.getRecentTracks().then((result)=>{
           let tracks = result.data;
              this.setState({tracks:tracks});
@@ -22,9 +21,6 @@ class RecentTracks extends Component {
 
   }
 
-  recentTracks(){
-
-  }
 
   render() {
    // console.log(this.state.tracks)
@@ -39,7 +35,6 @@ class RecentTracks extends Component {
               <div className="track">
                 <img src={tracks.track.album.images[0].url} className="img-fluid"/>
                 <div className="txt">
-
                   <h1>{tracks.track.name}</h1>
                   <span className="arr"><i className="fa fa-angle-right" aria-hidden="true"></i></span>
                 </div>

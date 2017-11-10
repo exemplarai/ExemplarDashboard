@@ -121,7 +121,7 @@ span.datactive div{
 .d_to .div_to.d12 input {
     text-align: center;
     font-weight: bold !important;
-    font-size: 20px;
+    font-size: 20px !important;
 }
 
 .d_to .div_to.d12 .b-n hr {
@@ -141,6 +141,7 @@ span.datactive div{
     letter-spacing: 1px;
     margin-left: -15px;
     margin-right: -15px;
+    font-size: 20px;
 }
 
 .cont1 h3 span {
@@ -148,6 +149,7 @@ span.datactive div{
     font-weight: 200;
     margin-top: 15px;
     margin-bottom: 50px;
+    font-size: 16px;
 }
 
 .cont1 {
@@ -161,13 +163,15 @@ span.datactive div{
 
 .empty_d.clearfix.empt {
     background-color: #f6f6f6;
+    padding: 0px;
+    text-align: center;
 }
 
 div#tooltip {
     background-color: #fff;
-    width: 50%;
     padding: 25px;
     margin-top: 100px;
+    display: inline-block;
 }
 
 div#tooltip li.activetooltip {
@@ -187,6 +191,7 @@ div#tooltip li:last-child {
 
 .brns img.brand-logo {
     float: left;
+    margin-top: 15px;
 }
 
 .brns button {
@@ -195,6 +200,7 @@ div#tooltip li:last-child {
 
 .brns button div {
     float: right;
+    margin-top: 10px;
 }
 
 .sidebar-nav-content h3 {
@@ -208,16 +214,54 @@ div#tooltip li:last-child {
 
 h2.charts-heading {
     text-align: center;
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 1px;
     color: #393C40;
-    font-size: 26px;
+    font-size: 18px;
 }
 .div_to.d12 div {
     width: auto !important;
 }
-@media (max-width:1400px){
-.div_to.d12 div input{
-    width: 100px !important;
+
+/** 8-11-2017 **/
+
+
+.profile-area {
+    margin-top: 80px !important;
 }
+
+.integration-block .image-block {
+    height: auto;
 }
+
+.integration-block-grayout .image-block {
+    height: auto;
+}
+
+.brns {
+    text-align: center;
+    padding: 4px 20px;
+}
+
+.brns img.brand-logo {
+    float: left;
+}
+
+.timeRange.d_to.clearfix {
+    clear: both;
+    display: inline-block;
+}
+
+.cont3 {
+    width: 32% !important;
+    display: inline-block !important;
+    background-color: #fff;
+}
+
+.cont4 {
+    float: none !important;
+}
+
+/* .high_c{
+    width:1500px !important;
+} */

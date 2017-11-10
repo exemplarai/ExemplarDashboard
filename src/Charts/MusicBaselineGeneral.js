@@ -50,10 +50,11 @@ class MusicBaselineGeneral extends Component {
 
       return (
         <div className="empty_d clearfix">
+          <div className="col-lg-1"></div>
           <div className="col-lg-6">
             <Radar data={this.props.general} width={600} height={600} options={this.props.options}/>
           </div>
-          <div className="col-lg-6 d_to">
+          <div className="col-lg-5 d_to">
 <div className="float-right">
               <DatePicker
                           onChange={this.handleChangeMinDate}

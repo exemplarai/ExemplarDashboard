@@ -5,42 +5,20 @@ import loading from '../Callback/loading.svg';
 import {Chart as chartjs} from 'react-chartjs-2';
 import RecentTracks from './RecentTracks';
 import MusicBaselineGeneral from './MusicBaselineGeneral';
+import moment from 'moment'; 
+import CoRelationChart from './CoRelationChart'
 import * as service from '../Services/services';
+
+const google = window.google;
 
 class Charts extends Component {
 
   constructor(props){
     super(props);
     this.state={
-      coorelations:{
-        data:{
-          labels: ['Album Popularity', 'Loudness', 'Energy', 'Dancebility', 'Duration', 'Tempo', 'Mode'],
-          datasets: [
-            {
-              label: 'Correlations of Sales and Music Feature',
-              backgroundColor: '#FA836F',
-              borderColor: 'rgba(255,99,132,1)',
-              borderWidth: 1,
-              hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-              hoverBorderColor: 'rgba(255,99,132,1)',
-              data: [65, 59, 80, 81, 56, 55, 40]
-            }
-          ]
-      },
-    },
-    priceCoorelations:{
-      data:{
-        labels: ['Album Popularity', 'Loudness', 'Energy', 'Dancebility', 'Duration', 'Tempo', 'Mode'],
-        datasets: [
-          {
-            label: 'Correlations of Sales and Music Feature',
-            backgroundColor: '#23264F',
-            borderWidth: 1,
-            data: [65, 59, 80, 81, 56, 55, 40]
-          }
-        ]
-    },
-  },
+      loader:true,
+      start_date:'',
+      end_date:'',
     baselineMorning:{
       data:{
         labels: [],
@@ -129,6 +107,9 @@ class Charts extends Component {
     }
   },
       options:{
+        tooltips: {
+          
+        },
         maintainAspectRatio: false,
         scales: {
           xAxes: [{
@@ -143,7 +124,15 @@ class Charts extends Component {
       }
     },
     paymentOptions:{
-      maintainAspectRatio: false,
+      legend: {
+        display: false,
+    },
+      tooltips: {
+        backgroundColor : '#fff',
+        titleFontColor : '#000',
+        bodyFontColor : '#000'
+      },
+      maintainAspectRatio: true,
       scales: {
         yAxes: [{
             ticks: {
@@ -164,31 +153,25 @@ class Charts extends Component {
       }]
     }
   },
-  coreationOption:{
-    legend: {
-        display: false
+  itemPurchasedOptions:{
+    tooltips: {
+      enabled:false,
     },
-    scaleLineColor: 'transparent',
-    maintainAspectRatio: false,
     scales: {
       xAxes: [{
-          barPercentage: 0.4,
-          ticks: {
-            autoSkip: false,
-            maxRotation: 90,
-            minRotation: 90,
-            fontSize: 20
-          },
-      }],
-      yAxes: [{
-        display: false,
-        gridLines: {
-          color: "rgba(0, 0, 0, 0)",
-          display : false,
-      }
+        stacked: false,
+        beginAtZero: true,
+        ticks: {
+            stepSize: 1,
+            min: 0,
+            autoSkip: false
+        }
     }]
-  }
   },
+  legend: {
+    display: false,
+  }
+},
   radarOptions:{
     tooltips: {
                 enabled:false,
@@ -202,13 +185,6 @@ class Charts extends Component {
                         document.getElementById('tooltip').style.boxShadow = ''
                         return;
                     }
-
-
-
-                    function getBody(bodyItem) {
-                        return bodyItem.lines;
-                    }
-
                     // Set Text
                     if (tooltipModel.body) {
                         var titleLines = tooltipModel.title || [];
@@ -249,87 +225,79 @@ class Charts extends Component {
     }
 
   this.getBaseLineChart = this.getBaseLineChart.bind(this);
+  this.getPaymentChart = this.getPaymentChart.bind(this);
+  this.getFeaturesChart = this.getFeaturesChart.bind(this);
   }
 
+  componentWillReceiveProps(props){
+    let from_date = moment(props.start_date).format('YYYY-MM-DD');
+    let to_date = moment(props.end_date).format('YYYY-MM-DD');
+
+    if(this.state.start_date !== from_date || this.state.to_date !== to_date){
+      this.getBaseLineChart(from_date,to_date);
+      this.getPaymentChart(from_date,to_date);
+      this.setState({start_date:from_date,to_date:to_date});
+    }
+    this.getFeaturesChart(from_date,to_date);
+    
+
+  }
+
+  
   componentDidMount(){
-    chartjs.pluginService.register({
-                afterDraw: (e) => {
-                  if(typeof this.refs.chart !== 'undefined'){
-                    let ctx = this.refs.chart.chart_instance.chart.ctx;
-                    ctx.font = "15px Arial";
-                    ctx.fillStyle = "#2A2D55";
-                    ctx.textAlign = "center";
-                    ctx.textBaseline = "bottom";
-                    this.refs.chart.chart_instance.chart.config.data.datasets.forEach(function (dataset) {
-                            const dataArray = dataset.data;
-                              dataset._meta[Object.keys(dataset._meta)[0]].data.forEach(function (bar, index) {
-                                  ctx.fillText(dataArray[index]+'%', bar._view.x, bar._view.y);
-                              });
-                    })
-                  }
-
-                  if(typeof this.refs.chart1 !== 'undefined'){
-                    let ctx1 = this.refs.chart1.chart_instance.chart.ctx;
-                    ctx1.font = "15px Arial";
-                    ctx1.fillStyle = "#2A2D55";
-                    ctx1.textAlign = "center";
-                    ctx1.textBaseline = "bottom";
-
-                    this.refs.chart1.chart_instance.chart.config.data.datasets.forEach(function (dataset) {
-                            const dataArray = dataset.data;
-                              dataset._meta[Object.keys(dataset._meta)[0]].data.forEach(function (bar, index) {
-                                  ctx1.fillText(dataArray[index]+'%', bar._view.x, bar._view.y);
-                              });
-                    })
-                  }
-                }
-            });
+            let from_date = moment(this.props.start_date).format('YYYY-MM-DD');
+            let to_date = moment(this.props.end_date).format('YYYY-MM-DD');
+            this.getBaseLineChart(from_date,to_date);
+            this.getPaymentChart(from_date,to_date);
+            this.getFeaturesChart(from_date,to_date);
   }
 
-  componentWillMount(){
-    /* Get Payments API */
-        service.getPayments().then((result)=>{
-              let labels = [];
-              let data = [];
-              let averageItemPurchasedData = [];
-              let averagePricePurchasedData = [];
-              result.data.map((item)=>{
-                labels.push(item.day.substring(0, 3));
-                data.push(item.averageSale);
-                averageItemPurchasedData.push(item.averageItemsPurchased);
-                averagePricePurchasedData.push(item.averageItemPrice);
-              })
-              var stateCopy = Object.assign({},this.state);
-              stateCopy.payment.data['labels'] = labels;
-              stateCopy.payment.data.datasets[0]['data'] = data;
 
-              stateCopy.averageItemPurchased.data['labels'] = labels;
-              stateCopy.averageItemPurchased.data.datasets[0]['data'] = averageItemPurchasedData;
 
-              stateCopy.averagePricePurchased.data['labels'] = labels;
-              stateCopy.averagePricePurchased.data.datasets[0]['data'] = averagePricePurchasedData;
-              this.setState({stateCopy})
-        }).catch((e)=>{
-          console.log('error',e)
-        })
+  getFeaturesChart = (from,to)=>{
+    this.setState({loader : true})
+    service.getFeatures(from,to).then((result)=>{
+      let dataDuration = result.data.duration;
+      let dataLoudness = result.data.loudness;
+      let dataTempo = result.data.tempo;
+      this.setState({
+        tracksDurationData:['Duration',dataDuration.min,dataDuration.max - dataDuration.min,dataDuration.avg - dataDuration.min,dataDuration.max + dataDuration.avg],
+        tracksTempoData:['Tempo',dataTempo.min,dataTempo.max - dataTempo.min,dataTempo.avg - dataTempo.min,dataTempo.max + dataTempo.avg],
+        tracksLoudnessData:['Loudness',dataLoudness.min,dataLoudness.max - dataLoudness.min,dataLoudness.avg - dataLoudness.min,dataLoudness.max + dataLoudness.avg]
+      });
+      this.setState({loader : false})
 
-     /* Get Feature API */
-     service.getFeatures().then((result)=>{
-        let dataDuration = result.data.duration;
-        let dataLoudness = result.data.loudness;
-        let dataTempo = result.data.tempo;
-        this.setState({
-          tracksDurationData:['duration',dataDuration.min - 5,dataDuration.min,dataDuration.avg,dataDuration.avg + 5],
-          tracksTempoData:['tempo',dataTempo.min - 5 ,dataTempo.min,dataTempo.avg,dataTempo.avg + 5],
-          tracksLoudnessData:['loudness',dataLoudness.min - 5,dataLoudness.min,dataLoudness.avg,dataLoudness.avg + 5 ]
-        });
+    }).catch((e)=>{
+      console.log('error',e)
+      this.setState({loader : false})
+    })
+  }
 
+  getPaymentChart = (from,to)=>{
+          service.getPayments(from,to).then((result)=>{
+            let labels = [];
+            let data = [];
+            let averageItemPurchasedData = [];
+            let averagePricePurchasedData = [];
+            result.data.map((item)=>{
+              labels.push(item.day.substring(0, 3));
+              data.push(item.averageSale);
+              averageItemPurchasedData.push(item.averageItemsPurchased);
+              averagePricePurchasedData.push(item.averageItemPrice);
+            })
+            var stateCopy = Object.assign({},this.state);
+            stateCopy.payment.data['labels'] = labels;
+            stateCopy.payment.data.datasets[0]['data'] = data;
+
+            stateCopy.averageItemPurchased.data['labels'] = labels;
+            stateCopy.averageItemPurchased.data.datasets[0]['data'] = averageItemPurchasedData;
+
+            stateCopy.averagePricePurchased.data['labels'] = labels;
+            stateCopy.averagePricePurchased.data.datasets[0]['data'] = averagePricePurchasedData;
+            this.setState({stateCopy})
       }).catch((e)=>{
         console.log('error',e)
       })
-
-      this.getBaseLineChart();
-
   }
 
   getBaseLineChart = (from,to)=>{
@@ -376,7 +344,10 @@ class Charts extends Component {
      })
 
   }
+
+ 
   render() {
+
     const style = {
       position: 'absolute',
       display: 'flex',
@@ -389,78 +360,99 @@ class Charts extends Component {
       right: 0,
       backgroundColor: 'white',
     }
-    if(this.state.averageItemPurchased.data.datasets[0]['data'].length > 0){
+    if(!this.state.loader){
       return (
         <section className="container-fluid wd">
         <div className="inner_section">
           <RecentTracks/>
-
-        <div className="clearfix"><h3>Correlations of Sales and Music Feature (hourly) <span>:</span></h3></div>
-        <div className="empty_d clearfix">
-          <h2 className="charts-heading">Correations between music features and sales</h2>
-          <Bar ref= "chart" data={this.state.coorelations.data} width={600} height={600} options={this.state.coreationOption}/>
-        </div>
-
-        <div className="clearfix"><h3>Average Price Per Unit and Music Feature Correlations (hourly) <span>:</span></h3></div>
-        <div className="empty_d clearfix">
-          <h2 className="charts-heading">Correations between music features and sales</h2>
-          <Bar ref= "chart1" data={this.state.priceCoorelations.data} width={600} height={600} options={this.state.coreationOption}/>
-        </div>
+          <CoRelationChart/>
+        
 
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
 
           <MusicBaselineGeneral general={this.state.baselineGeneral.data} onDateFilter={this.getBaseLineChart.bind(this)} options={this.state.radarOptions}/>
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
-        <div className="empty_d clearfix">
-          <div className="col-sm-4">
+        <div className="empty_d clearfix empt">
+          <div className="col-sm-4 cont3 pull-left">
             <h2 className="charts-heading">Track durations (minutes)</h2>
             {this.state.tracksDurationData.length > 0?<Chart
-                              chartType="CandlestickChart"
-                              data={[["DAY","val1","val2","val3","val4"],this.state.tracksDurationData]}
-                              options={{legend: 'none',
-                                  bar: { groupWidth: '100%' },
-                                  candlestick: {
-                                    fallingColor: { strokeWidth: 0, fill: '#FE826A' },
-                                    risingColor: { strokeWidth: 0, fill: '#FE826A' }
-                                  }}}
-                              width="100%"
-                              height="600px"
-                            />:''}
+              chartType="ComboChart"
+              rows={[this.state.tracksDurationData]}
+              columns={[
+                {type: 'string'},
+                {type: 'number'},
+                {type: 'number'},
+                {type: 'number', role: 'interval'},
+                {type: 'number', role: 'interval'},
+              ]
+              }
+              options={{
+                isStacked: true,
+                seriesType: "bars",
+                colors:["#FE826A"],
+                hAxis: { textPosition: 'none' },
+                legend: {position: 'none'},
+                series: {0: {color: 'transparent'} ,2: {type: "line"}}
+              }}
+              width="100%"
+              height="600px"
+            />:''}
 
           </div>
-          <div className="col-sm-4">
+          <div className="col-sm-4 cont3 cont4">
             <h2 className="charts-heading">Loudness (dBs)</h2>
           {this.state.tracksLoudnessData.length > 0?<Chart
-                              chartType="CandlestickChart"
-                              data={[["DAY","val1","val2","val3","val4"],this.state.tracksLoudnessData]}
-                              options={{legend: 'none',
-                                  bar: { groupWidth: '100%' },
-                                  candlestick: {
-                                    fallingColor: { strokeWidth: 0, fill: '#FE826A' },
-                                    risingColor: { strokeWidth: 0, fill: '#FE826A' }
-                                  }}}
-                              width="100%"
-                              height="600px"
-                            />:''}
+            chartType="ComboChart"
+            rows={[this.state.tracksLoudnessData]}
+            columns={[
+              {type: 'string'},
+              {type: 'number'},
+              {type: 'number'},
+              {type: 'number', role: 'interval'},
+              {type: 'number', role: 'interval'},
+            ]
+            }
+            options={{
+              isStacked: true,
+              seriesType: "bars",
+              colors:["#FE826A"],
+              hAxis: { textPosition: 'none' },
+              legend: {position: 'none'},
+              series: {0: {color: 'transparent'}, 2: {type: "line"}}
+            }}
+            width="100%"
+            height="600px"
+          />:''}
           </div>
-          <div className="col-sm-4">
+          <div className="col-sm-4 cont3 pull-right">
           <h2 className="charts-heading">Tempo (bpm)</h2>
-          {this.state.tracksTempoData.length > 0?<Chart
-                              chartType="CandlestickChart"
-                              data={[["DAY","val1","val2","val3","val4"],this.state.tracksTempoData]}
-                              options={{legend: 'none',
-                                  bar: { groupWidth: '100%' },
-                                  candlestick: {
-                                    fallingColor: { strokeWidth: 0, fill: '#FE826A' },
-                                    risingColor: { strokeWidth: 0, fill: '#FE826A' }
-                                  }}}
-                              width="100%"
-                              height="600px"
-                            />:''}
+          {this.state.tracksTempoData.length > 0?
+            <Chart
+            chartType="ComboChart"
+            rows={[this.state.tracksTempoData]}
+            columns={[
+              {type: 'string'},
+              {type: 'number'},
+              {type: 'number'},
+              {type: 'number', role: 'interval'},
+              {type: 'number', role: 'interval'},
+            ]
+            }
+            options={{
+              isStacked: true,
+              seriesType: "bars",
+              colors:["#FE826A"],
+              hAxis: { textPosition: 'none' },
+              legend: {position: 'none'},
+              series: {0: {color: 'transparent'}, 2: {type: "line"}}
+            }}
+            width="100%"
+            height="600px"
+          /> :''}
           </div>
-        </div>
-
-        <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
+        </div>      
+                  
+        {/* <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div> */}
         <div className="empty_d clearfix empt">
         <div className="col-sm-6 cont1">
         <div className="cont">
@@ -478,18 +470,18 @@ class Charts extends Component {
         </div>
 
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
-        <div className="empty_d clearfix">
-          <div className="col-sm-4">
-
-            <Line data={this.state.payment.data}  height={500} options={this.state.paymentOptions}/>
+        <div className="empty_d clearfix empt">
+          <div className="col-sm-4 cont3 pull-left">
+          <h2 className="charts-heading">Average Purchase Value</h2>                 
+            <Line data={this.state.payment.data}  height={200} options={this.state.paymentOptions}/>
           </div>
-          <div className="col-sm-4">
-
-           <Line data={this.state.averageItemPurchased.data} height={500} options={this.state.options}/>
+          <div className="col-sm-4 cont3 cont4">
+          <h2 className="charts-heading">Average # of Items Purchased</h2>
+           <Line data={this.state.averageItemPurchased.data} height={200} options={this.state.itemPurchasedOptions}/>
           </div>
-          <div className="col-sm-4">
-
-            <Line data={this.state.averagePricePurchased.data}  height={500} options={this.state.paymentOptions}/>
+          <div className="col-sm-4 cont3 pull-right">
+          <h2 className="charts-heading">Average Price per Item Purchased</h2>
+            <Line data={this.state.averagePricePurchased.data}  height={200} options={this.state.paymentOptions}/>
           </div>
         </div>
         </div>
