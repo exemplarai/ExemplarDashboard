@@ -212,7 +212,7 @@ class Charts extends Component {
     },
     scale: {
     pointLabels: {
-      fontSize: 20,
+      fontSize: 16,
   },
       ticks: {
             beginAtZero: true,
@@ -371,7 +371,7 @@ class Charts extends Component {
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
 
           <MusicBaselineGeneral general={this.state.baselineGeneral.data} onDateFilter={this.getBaseLineChart.bind(this)} options={this.state.radarOptions}/>
-        <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
+
         <div className="empty_d clearfix empt">
           <div className="col-sm-4 cont3 pull-left">
             <h2 className="charts-heading">Track durations (minutes)</h2>
@@ -452,24 +452,24 @@ class Charts extends Component {
           </div>
         </div>      
                   
-        {/* <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div> */}
+        <div className="clearfix"><h3>Music Baseline Analysis (By Time of Day) <span>:</span></h3></div>
         <div className="empty_d clearfix empt chart-res">
         <div className="col-sm-6 cont1">
         <div className="cont">
-          <Radar data={this.state.baselineMorning.data} width={600} height={600} options={this.state.radarOptions}/>
+          <Radar data={this.state.baselineMorning.data} width={400} height={400} options={this.state.radarOptions}/>
         </div>
         <h3>Morning <span>6:00am - 11:59pm</span></h3>
         </div>
         <div className="col-sm-6 cont1 cont2">
         <div className="cont">
-          <Radar data={this.state.baselineAfternoon.data} width={600} height={600} options={this.state.radarOptions}/>
+          <Radar data={this.state.baselineAfternoon.data} width={400} height={400} options={this.state.radarOptions}/>
         </div>
         <h3>Afternoon <span>12:00pm - 05:30pm</span></h3>
       </div>
 
         </div>
 
-        <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
+        <div className="clearfix"><h3>Sales Statistics <span>:</span></h3></div>
         <div className="empty_d clearfix empt">
           <div className="col-sm-4 cont3 pull-left">
           <h2 className="charts-heading">Average Purchase Value</h2>                 

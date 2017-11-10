@@ -11,10 +11,10 @@ class MusicBaselineGeneral extends Component {
   render() {
 
       return (
-        <div className="empty_d clearfix">
+        <div className="empty_d clearfix ptb-50">
           <div className="col-lg-3"></div>
           <div className="col-lg-6">
-            <Radar data={this.props.general} width={600} height={600} options={this.props.options}/>
+            <Radar data={this.props.general} width={500} height={500} options={this.props.options}/>
           </div>
           <div className="col-lg-3 d_to">
 

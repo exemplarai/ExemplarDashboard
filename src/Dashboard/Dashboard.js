@@ -137,11 +137,12 @@ class Dashboard extends Component {
             <Sidebar sidebar={sidebarContent}
                open={this.state.menuOpen} docked={this.state.menuOpen}>
             <div className="profile-area">
-              <div className="brns" style={{'width':this.state.width}}>
+              <div className="brns row" style={{'width':this.state.width}}>
+              <div className="col-lg-3">
               <img className="brand-logo" onClick={this.menuToggle.bind(this)} src={menu} style={{height:27,width:27,position:'relative'}} />
-              
+              </div>
               {this.state.componentToRender === "Analytics" ? 
-              <div className="timeRange d_to clearfix">
+              <div className="timeRange d_to clearfix col-lg-6">
               <DatePicker
                           onChange={this.handleChangeMinDate}
                           autoOk={this.state.autoOk}
@@ -159,17 +160,20 @@ class Dashboard extends Component {
                 className="div_to d12"
               />
                 </div>:''}
-
-              {
+<div className="col-sm-3">
+                      {
                         !isAuthenticated() && (
                             <FlatButton label="Log In" onClick={this.login.bind(this)}/>
                           )
                       }
                       {
                         isAuthenticated() && (
+                          
                             <FlatButton label="Log out" onClick={this.logout.bind(this)}/>
                           )
-                      }</div>
+                      }
+                      </div>
+                      </div>
               {
                   this.state.componentToRender == "Analytics"
                   ?

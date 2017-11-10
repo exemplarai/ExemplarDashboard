@@ -155,6 +155,7 @@ span.datactive div{
 .cont1 {
     background-color: #ffffff;
     width: 49% !important;
+    padding-top: 50px;
 }
 
 .cont1.cont2 {
@@ -268,4 +269,16 @@ h2.charts-heading {
     width: 100% !important;
 }
 
+.ptb-50 {
+    padding: 50px 0;
+}
 
+.brns {
+    margin-left: 0px !important;
+}
+
+@media (max-width:1600px){
+    .brns button {
+        float: left !important;
+    }
+}
