@@ -453,7 +453,7 @@ class Charts extends Component {
         </div>      
                   
         {/* <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div> */}
-        <div className="empty_d clearfix empt">
+        <div className="empty_d clearfix empt chart-res">
         <div className="col-sm-6 cont1">
         <div className="cont">
           <Radar data={this.state.baselineMorning.data} width={600} height={600} options={this.state.radarOptions}/>

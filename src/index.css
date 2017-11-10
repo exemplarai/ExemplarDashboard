@@ -262,6 +262,10 @@ h2.charts-heading {
     float: none !important;
 }
 
-/* .high_c{
-    width:1500px !important;
-} */
+/** 10-11-2017 **/
+
+.chart-res .col-md-12 {
+    width: 100% !important;
+}
+
+
