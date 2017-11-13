@@ -1,6 +1,9 @@
 import axios from 'axios';
 
 let locationId = localStorage.getItem('location_id');
+if(locationId === null){
+    locationId = '8BSTTGBX5Z7VM';
+}
 export function getPayments(fromDate = '2017-10-15',toDate = '2017-10-21'){
     return axios.get('https://api.exemplar.ai/analytics/'+locationId+'/payments.general?from='+fromDate+'&to='+toDate+'&offset=-08%3A00',{headers:getAuthorizationHeader()});
 }

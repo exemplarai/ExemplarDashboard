@@ -261,9 +261,9 @@ class Charts extends Component {
       let dataLoudness = result.data.loudness;
       let dataTempo = result.data.tempo;
       this.setState({
-        tracksDurationData:['Duration',dataDuration.min,dataDuration.max - dataDuration.min,dataDuration.avg - dataDuration.min,dataDuration.max + dataDuration.avg],
-        tracksTempoData:['Tempo',dataTempo.min,dataTempo.max - dataTempo.min,dataTempo.avg - dataTempo.min,dataTempo.max + dataTempo.avg],
-        tracksLoudnessData:['Loudness',dataLoudness.min,dataLoudness.max - dataLoudness.min,dataLoudness.avg - dataLoudness.min,dataLoudness.max + dataLoudness.avg]
+        tracksDurationData:['Duration',dataDuration.min,dataDuration.max - dataDuration.min,dataDuration.avg - dataDuration.min,dataDuration.max],
+        tracksTempoData:['Tempo',dataTempo.min,dataTempo.max - dataTempo.min,dataTempo.max - dataTempo.avg,dataTempo.max],
+        tracksLoudnessData:['Loudness',dataLoudness.max, dataLoudness.min - dataLoudness.max,dataLoudness.avg,dataLoudness.max - dataLoudness.avg]
       });
       this.setState({loader : false})
 
@@ -347,7 +347,6 @@ class Charts extends Component {
 
  
   render() {
-
     const style = {
       position: 'absolute',
       display: 'flex',
@@ -392,7 +391,10 @@ class Charts extends Component {
                 colors:["#FE826A"],
                 hAxis: { textPosition: 'none' },
                 legend: {position: 'none'},
-                series: {0: {color: 'transparent'} ,2: {type: "line"}}
+                series: {0: {color: 'transparent'} ,2: {type: "line"}},
+                'tooltip' : {
+                  trigger: 'none'
+                }
               }}
               width="100%"
               height="600px"
@@ -418,7 +420,10 @@ class Charts extends Component {
               colors:["#FE826A"],
               hAxis: { textPosition: 'none' },
               legend: {position: 'none'},
-              series: {0: {color: 'transparent'}, 2: {type: "line"}}
+              series: {0: {color: 'transparent'}, 2: {type: "line"}},
+              'tooltip' : {
+                trigger: 'none'
+              }
             }}
             width="100%"
             height="600px"
@@ -444,7 +449,10 @@ class Charts extends Component {
               colors:["#FE826A"],
               hAxis: { textPosition: 'none' },
               legend: {position: 'none'},
-              series: {0: {color: 'transparent'}, 2: {type: "line"}}
+              series: {0: {color: 'transparent'}, 2: {type: "line"}},
+              'tooltip' : {
+                trigger: 'none'
+              }
             }}
             width="100%"
             height="600px"
