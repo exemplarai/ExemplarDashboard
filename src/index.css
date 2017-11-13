@@ -115,13 +115,13 @@ span.datactive div{
     font-weight: bold;
     line-height: 48px;
     text-transform: lowercase;
-    font-size: 20px;
+    font-size: 14px;
 }
 
 .d_to .div_to.d12 input {
     text-align: center;
     font-weight: bold !important;
-    font-size: 20px !important;
+    font-size: 14px !important;
 }
 
 .d_to .div_to.d12 .b-n hr {
@@ -201,7 +201,11 @@ div#tooltip li:last-child {
 
 .brns button div {
     float: right;
-    margin-top: 10px;
+    margin-top: 6px;
+}
+.brns button div {
+    float: right;
+    margin-top: 6px;
 }
 
 .sidebar-nav-content h3 {
@@ -225,19 +229,6 @@ h2.charts-heading {
 }
 
 /** 8-11-2017 **/
-
-
-.profile-area {
-    margin-top: 80px !important;
-}
-
-.integration-block .image-block {
-    height: auto;
-}
-
-.integration-block-grayout .image-block {
-    height: auto;
-}
 
 .brns {
     text-align: center;
@@ -276,9 +267,81 @@ h2.charts-heading {
 .brns {
     margin-left: 0px !important;
 }
-
-@media (max-width:1600px){
+.col-sm-3.lgot button:hover{
+    border: 0px!important;
+}
+button.lgott {
+    background-color: transparent;
+    color: #909090;
+    padding: 10px 22px;
+    border: 0;
+    margin-top: 6px;
+}
+@media (min-width:1500) and (max-width:1600px){
     .brns button {
-        float: left !important;
+        float: right !important;
+        padding-right: 10px!important;
+    }   
+}
+@media (min-width:1400px) and (max-width:1499px){
+     .col-sm-3.lgot button {
+        padding-right: 36px!important;
+    } 
+}
+@media (min-width:1300px) and (max-width:1399px){
+    .col-sm-3.lgot button {
+        padding-right: 56px!important;
+    } 
+}
+@media (min-width:1200px) and (max-width:1299px){
+    .col-sm-3.lgot button {
+        padding-right: 76px!important;
+    } 
+}
+@media (min-width:1025px) and (max-width:1199px){
+    .col-sm-3.lgot button {
+        padding-right: 96px!important;
+    } 
+    .d_to .div_to.d12 {
+        padding: 0 0px;
+}
+.d_to .div_to{
+    margin-right: 10px;
+}
+}
+@media (min-width:992px) and (max-width:1024px){
+    .col-sm-3.lgot button {
+        padding-right:102px!important;
+    } 
+    .d_to .div_to.d12 {
+        padding: 0 0px;
+        width: 105px!important;
+}
+.d_to .div_to{
+    margin-right: 10px;
+}
+}
+@media (min-width:320px) and (max-width:480px){
+       .d_to .div_to{
+        width: 100%;
     }
+    .col-sm-3.lgot {
+        text-align: center!important;
+        width: 100%;
+        margin: 0 auto;
+        display: inline-grid;
+    }
+
+}
+@media (min-width:481px) and (max-width:640px){
+    .d_to .div_to{
+     width: 100%;
+ }
+ .col-sm-3.lgot {
+     text-align: center!important;
+     width: 100%;
+     margin: 0 auto;
+     display: inline-grid;
+ }
+
 }

@@ -318,7 +318,7 @@ class CoRelationChart extends Component {
           let values = [];
           sales.data.map((sale)=>{
               categories.push(sale.featureName);
-              values.push(sale.correlationValue);
+              values.push(Math.round(sale.correlationValue));
           })
           var stateCopy = Object.assign({},this.state);
           stateCopy.coorelations.xAxis['categories'] = categories;
@@ -331,7 +331,7 @@ class CoRelationChart extends Component {
         let values = [];
         price.data.map((sale)=>{
             categories.push(sale.featureName);
-            values.push(sale.correlationValue);
+            values.push(Math.round(sale.correlationValue));
         })
         var stateCopy = Object.assign({},this.state);
         stateCopy.priceCoorelations.xAxis['categories'] = categories;
