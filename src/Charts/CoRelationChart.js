@@ -344,7 +344,7 @@ class CoRelationChart extends Component {
 
       return (
         <div>
-       <div className="clearfix"><h3>Correlations of Sales and Music Feature (hourly) <span>:</span></h3></div>
+       <div className="clearfix"><h3>Correlations of Sales and Music Feature <span>:</span></h3></div>
         <div className="empty_d clearfix">
           <h2 className="charts-heading" id="r">Correations between music features and sales</h2>
           <div className="high_c">
@@ -352,7 +352,7 @@ class CoRelationChart extends Component {
           </div>
         </div>
 
-        <div className="clearfix"><h3>Average Price Per Unit and Music Feature Correlations (hourly) <span>:</span></h3></div>
+        <div className="clearfix"><h3>Average Price Per Unit and Music Feature Correlations <span>:</span></h3></div>
         <div className="empty_d clearfix">
           <h2 className="charts-heading">Correations between music features and sales</h2>
           <div className="high_c">

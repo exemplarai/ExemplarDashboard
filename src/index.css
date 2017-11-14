@@ -237,6 +237,8 @@ h2.charts-heading {
 
 .brns img.brand-logo {
     float: left;
+    margin-left: -10px;
+
 }
 
 .timeRange.d_to.clearfix {
@@ -344,4 +346,9 @@ button.lgott {
      display: inline-grid;
  }
 
+}
+
+/** 14-11-2017 **/
+.h-height h2.charts-heading {
+    min-height: 36px;
 }

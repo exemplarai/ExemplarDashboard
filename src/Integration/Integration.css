@@ -9,9 +9,9 @@
   	max-width: 150px;
   	margin-bottom: 20px;
 }
-.heading1{
+/* .heading1{
 	font-family:Verdana, Arial, Helvetica, sans-serif;
-}
+} */
 .settings-form-block{
 	margin-top:30px;
 	margin-left:5px;
@@ -82,4 +82,10 @@
 	font-weight:bold;
 	-webkit-font-smoothing:antialiased;
 	-moz-osx-font-smoothing:grayscale;
+}
+
+/** 14-11-2017 **/
+
+.image-block.integration {
+    height: auto;
 }

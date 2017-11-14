@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import './Dashboard.css';
 import logoimg from '../music.png';
-import loading from '../Callback/loading.svg';
+import loading from '../Callback/giphy.gif';
 import axios from 'axios'
 import Charts from '../Charts/Charts'
 import Integration from '../Integration/Integration'

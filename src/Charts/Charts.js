@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Bar, Radar,Line} from 'react-chartjs-2';
 import { Chart } from 'react-google-charts';
-import loading from '../Callback/loading.svg';
+import loading from '../Callback/giphy.gif';
 import {Chart as chartjs} from 'react-chartjs-2';
 import RecentTracks from './RecentTracks';
 import MusicBaselineGeneral from './MusicBaselineGeneral';
@@ -118,7 +118,7 @@ class Charts extends Component {
             ticks: {
                 stepSize: 1,
                 min: 0,
-                autoSkip: false
+                autoSkip: false,
             }
         }]
       }
@@ -128,9 +128,30 @@ class Charts extends Component {
         display: false,
     },
       tooltips: {
+        callbacks: {
+          title: function(tooltipItem, data) {   
+            return data['labels'][tooltipItem[0]['index']];
+          },
+          afterBody: function(tooltipItem, data) {              
+            let price = data['datasets'][0]['data'][tooltipItem[0]['index']];
+            return '$'+price.toFixed(2);
+        },
+        label :function(tooltipItem, data) {
+          return
+        }
+      },
         backgroundColor : '#fff',
-        titleFontColor : '#000',
-        bodyFontColor : '#000'
+        titleFontColor : '#60637E',
+        titleFontSize:14,
+        bodyFontColor : '#000',
+        bodyFontSize:30,
+        bodySpacing:4,
+        titleMarginBottom:5,
+        xPadding:30,
+        yPadding:20,
+        titleFontStyle:'200',
+        bodyFontStyle:'200'
+        
       },
       maintainAspectRatio: true,
       scales: {
@@ -212,7 +233,7 @@ class Charts extends Component {
     },
     scale: {
     pointLabels: {
-      fontSize: 16,
+      fontSize: 14,
   },
       ticks: {
             beginAtZero: true,
@@ -261,7 +282,7 @@ class Charts extends Component {
       let dataLoudness = result.data.loudness;
       let dataTempo = result.data.tempo;
       this.setState({
-        tracksDurationData:['Duration',dataDuration.min,dataDuration.max - dataDuration.min,dataDuration.avg - dataDuration.min,dataDuration.max],
+        tracksDurationData:['Duration',dataDuration.min/60,dataDuration.max/60 - dataDuration.min/60,dataDuration.avg/60 - dataDuration.min/60,dataDuration.max/60],
         tracksTempoData:['Tempo',dataTempo.min,dataTempo.max - dataTempo.min,dataTempo.max - dataTempo.avg,dataTempo.max],
         tracksLoudnessData:['Loudness',dataLoudness.max, dataLoudness.min - dataLoudness.max,dataLoudness.avg,dataLoudness.max - dataLoudness.avg]
       });
@@ -478,7 +499,7 @@ class Charts extends Component {
         </div>
 
         <div className="clearfix"><h3>Sales Statistics <span>:</span></h3></div>
-        <div className="empty_d clearfix empt">
+        <div className="empty_d clearfix empt h-height">
           <div className="col-sm-4 cont3 pull-left">
           <h2 className="charts-heading">Average Purchase Value</h2>                 
             <Line data={this.state.payment.data}  height={200} options={this.state.paymentOptions}/>
@@ -498,7 +519,7 @@ class Charts extends Component {
     }else {
       return (
         <div style={style}>
-          <img src={loading} alt="loading" style={{width:'120px'}}/>
+          <img src={loading} alt="loading"/>
         </div>
       );
     }

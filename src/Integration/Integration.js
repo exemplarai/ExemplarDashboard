@@ -14,7 +14,7 @@ class Integration extends Component {
              <h2 className="heading1">Link Your Account To Begin Learning:</h2>
               <div className="settings-form-block">
                 <div className="integration-block">
-                  <div className='image-block'>
+                  <div className='image-block integration'>
                     <img className="img-square" src={squareimg} alt="Square Logo"/> 
                   </div>
                   <table className="block-table" style={{'width':'100%'}}>
@@ -45,7 +45,7 @@ class Integration extends Component {
                   </table>
                 </div>
                 <div className={this.props.spotify_block_class}>
-                  <div className='image-block'>
+                  <div className='image-block integration'>
                     <img className="img-spotify" src={spotifyimg} alt="Spotify Logo"/> 
                   </div>
                   <table className="block-table" style={{'width':'100%'}}>

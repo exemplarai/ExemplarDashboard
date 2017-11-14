@@ -9,9 +9,9 @@
   	max-width: 150px;
   	margin-bottom: 20px;
 }
-.heading1{
+/* .heading1{
 	font-family:Verdana, Arial, Helvetica, sans-serif;
-}
+} */
 .settings-form-block{
 	margin-top:30px;
 	margin-left:5px;
@@ -82,4 +82,21 @@
 	font-weight:bold;
 	-webkit-font-smoothing:antialiased;
 	-moz-osx-font-smoothing:grayscale;
+}
+img.img-spotify {
+    width: 192px;
+    padding-bottom: 20px;
+}
+img.img-square {
+    width: 192px;
+    padding-bottom: 15px;
+}h2.heading1 {
+    font-size: 17px;
+    font-weight: 100;
+    padding-left: 10px;
+}
+h2.heading1 {
+    font-size: 24px;
+    font-weight: 300;
+    padding-left: 10px;
 }

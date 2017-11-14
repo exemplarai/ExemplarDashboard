@@ -14,7 +14,9 @@ class MusicBaselineGeneral extends Component {
         <div className="empty_d clearfix ptb-50">
           <div className="col-lg-3"></div>
           <div className="col-lg-6">
-            <Radar data={this.props.general} width={500} height={500} options={this.props.options}/>
+            <div>
+            <Radar data={this.props.general} width={400} height={400} options={this.props.options}/>
+            </div>
           </div>
           <div className="col-lg-3 d_to">
 
