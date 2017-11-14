@@ -3,7 +3,7 @@ import { Navbar } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
 import './App.css';
 import logoimg from './logo.png';
-import loading from './Callback/loading.svg';
+import loading from './Callback/giphy.gif';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Menu from 'material-ui/Menu';

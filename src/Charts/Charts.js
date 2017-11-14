@@ -373,7 +373,7 @@ class Charts extends Component {
       display: 'flex',
       justifyContent: 'center',
       height: '100vh',
-      width: '100vw',
+     // width: '100vw',
       top: 0,
       bottom: 0,
       left: 0,
