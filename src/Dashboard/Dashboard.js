@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import './Dashboard.css';
 import logoimg from '../music.png';
-import loading from '../Callback/giphy.gif';
+import loading from '../Callback/Spinner.gif';
 import axios from 'axios'
 import Charts from '../Charts/Charts'
 import Integration from '../Integration/Integration'
@@ -116,11 +116,9 @@ class Dashboard extends Component {
     </div>;
     const style = {
       position: 'absolute',
-      display: 'flex',
       justifyContent: 'center',
-      height: '100vh',
-      width: '100vw',
-      top: 0,
+      textAlign:'center',
+      top: '30%',
       bottom: 0,
       left: 0,
       right: 0,

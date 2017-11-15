@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Bar, Radar,Line} from 'react-chartjs-2';
 import { Chart } from 'react-google-charts';
-import loading from '../Callback/giphy.gif';
+import loading from '../Callback/Spinner.gif';
 import {Chart as chartjs} from 'react-chartjs-2';
 import RecentTracks from './RecentTracks';
 import MusicBaselineGeneral from './MusicBaselineGeneral';
@@ -370,11 +370,9 @@ class Charts extends Component {
   render() {
     const style = {
       position: 'absolute',
-      display: 'flex',
       justifyContent: 'center',
-      height: '100vh',
-     // width: '100vw',
-      top: 0,
+      textAlign:'center',
+      top: '30%',
       bottom: 0,
       left: 0,
       right: 0,
@@ -519,7 +517,7 @@ class Charts extends Component {
     }else {
       return (
         <div style={style}>
-          <img src={loading} alt="loading"/>
+          <img style={{width:'auto'}}src={loading} alt="loading"/>
         </div>
       );
     }

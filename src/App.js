@@ -3,7 +3,7 @@ import { Navbar } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
 import './App.css';
 import logoimg from './logo.png';
-import loading from './Callback/giphy.gif';
+import loading from './Callback/Spinner.gif';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Menu from 'material-ui/Menu';
@@ -72,11 +72,9 @@ class App extends Component {
     
     const style = {
       position: 'absolute',
-      display: 'flex',
       justifyContent: 'center',
-      height: '100vh',
-      width: '100vw',
-      top: 0,
+      textAlign:'center',
+      top: '25%',
       bottom: 0,
       left: 0,
       right: 0,
