@@ -5,7 +5,7 @@ import loading from '../Callback/Spinner.gif';
 import {Chart as chartjs} from 'react-chartjs-2';
 import RecentTracks from './RecentTracks';
 import MusicBaselineGeneral from './MusicBaselineGeneral';
-import moment from 'moment'; 
+import moment from 'moment';
 import CoRelationChart from './CoRelationChart'
 import * as service from '../Services/services';
 
@@ -108,7 +108,7 @@ class Charts extends Component {
   },
       options:{
         tooltips: {
-          
+
         },
         maintainAspectRatio: false,
         scales: {
@@ -129,10 +129,10 @@ class Charts extends Component {
     },
       tooltips: {
         callbacks: {
-          title: function(tooltipItem, data) {   
+          title: function(tooltipItem, data) {
             return data['labels'][tooltipItem[0]['index']];
           },
-          afterBody: function(tooltipItem, data) {              
+          afterBody: function(tooltipItem, data) {
             let price = data['datasets'][0]['data'][tooltipItem[0]['index']];
             return '$'+price.toFixed(2);
         },
@@ -151,7 +151,7 @@ class Charts extends Component {
         yPadding:20,
         titleFontStyle:'200',
         bodyFontStyle:'200'
-        
+
       },
       maintainAspectRatio: true,
       scales: {
@@ -260,11 +260,11 @@ class Charts extends Component {
       this.setState({start_date:from_date,to_date:to_date});
     }
     this.getFeaturesChart(from_date,to_date);
-    
+
 
   }
 
-  
+
   componentDidMount(){
             let from_date = moment(this.props.start_date).format('YYYY-MM-DD');
             let to_date = moment(this.props.end_date).format('YYYY-MM-DD');
@@ -282,9 +282,9 @@ class Charts extends Component {
       let dataLoudness = result.data.loudness;
       let dataTempo = result.data.tempo;
       this.setState({
-        tracksDurationData:['Duration',dataDuration.min/60,dataDuration.max/60 - dataDuration.min/60,dataDuration.avg/60 - dataDuration.min/60,dataDuration.max/60],
-        tracksTempoData:['Tempo',dataTempo.min,dataTempo.max - dataTempo.min,dataTempo.max - dataTempo.avg,dataTempo.max],
-        tracksLoudnessData:['Loudness',dataLoudness.max, dataLoudness.min - dataLoudness.max,dataLoudness.avg,dataLoudness.max - dataLoudness.avg]
+        tracksDurationData:['Duration',0,dataDuration.avg/60,dataDuration.min/60,dataDuration.max/60],
+        tracksTempoData:['Tempo',0,dataTempo.avg,dataTempo.min,dataTempo.max],
+        tracksLoudnessData:['Loudness',0,dataLoudness.avg,dataLoudness.min,dataLoudness.max]
       });
       this.setState({loader : false})
 
@@ -366,7 +366,7 @@ class Charts extends Component {
 
   }
 
- 
+
   render() {
     const style = {
       position: 'absolute',
@@ -384,7 +384,7 @@ class Charts extends Component {
         <div className="inner_section">
           <RecentTracks/>
           <CoRelationChart/>
-        
+
 
         <div className="clearfix"><h3>Music Baseline Analysis (General) <span>:</span></h3></div>
 
@@ -477,8 +477,8 @@ class Charts extends Component {
             height="600px"
           /> :''}
           </div>
-        </div>      
-                  
+        </div>
+
         <div className="clearfix"><h3>Music Baseline Analysis (By Time of Day) <span>:</span></h3></div>
         <div className="empty_d clearfix empt chart-res">
         <div className="col-sm-6 cont1">
@@ -499,7 +499,7 @@ class Charts extends Component {
         <div className="clearfix"><h3>Sales Statistics <span>:</span></h3></div>
         <div className="empty_d clearfix empt h-height">
           <div className="col-sm-4 cont3 pull-left">
-          <h2 className="charts-heading">Average Purchase Value</h2>                 
+          <h2 className="charts-heading">Average Purchase Value</h2>
             <Line data={this.state.payment.data}  height={200} options={this.state.paymentOptions}/>
           </div>
           <div className="col-sm-4 cont3 cont4">
